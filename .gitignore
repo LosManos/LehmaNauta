@@ -1,6 +1,7 @@
 RavenDb/
 *.dll
 packages/
+incoming/
 
 #################
 ## Eclipse
