@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LehmaNautaLogic.Test
 {
 	[TestClass]
-	public class FileInfoTest
+	public class FileInfoServiceTest
 	{
 		[TestInitialize]
 		public void Init()

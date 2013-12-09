@@ -9,7 +9,7 @@ using LNL = LehmaNautaLogic;
 namespace LehmaNautaLogic.Test
 {
 	[TestClass]
-	public class FileTest
+	public class FileServiceTest
 	{
 		private const string RepositoryPath = @"..\..\TI.RepoFolder";
 
