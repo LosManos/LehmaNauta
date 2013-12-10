@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using LehmaNautaLogic.DTO;
+using LNLI = LehmaNautaLogicImplementation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LehmaNautaLogic.Test
@@ -11,7 +12,7 @@ namespace LehmaNautaLogic.Test
 		[TestInitialize]
 		public void Init()
 		{
-			var logic = new LehmaNautaLogic.FileInformationService();
+			IFileInformationService logic = new LNLI.FileInformationService();
 			logic.EnsureDatabaseExists();
 		}
 
@@ -19,7 +20,7 @@ namespace LehmaNautaLogic.Test
 		public void Create()
 		{
 			var before = DateTime.Now;
-			var testee = new LehmaNautaLogic.FileInformationService();
+			IFileInformationService testee = new LNLI.FileInformationService();
 			var fiIeID = testee.Create(new DTO.FileInformation().Set("IT.myfilename", "IT.myowner"));
 			Assert.AreNotEqual(Guid.Empty, fiIeID);
 
@@ -33,7 +34,7 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void Delete()
 		{
-			var testee = new LehmaNautaLogic.FileInformationService();
+			IFileInformationService testee = new LNLI.FileInformationService();
 			var id = Guid.NewGuid();
 			var preCount = testee.IT_GetAll().Count;
 			var newFileinfo = new FileInformation().Set("IT.a", "IT.b");
@@ -50,7 +51,7 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void DeleteOld()
 		{
-			var testee = new LehmaNautaLogic.FileInformationService();
+			var testee = new LNLI.FileInformationService();
 			var preCount = testee.IT_GetAll().Count;
 			var pastFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			pastFileinfo.Created = DateTime.Now.AddDays(-1).AddHours(-1);
@@ -67,7 +68,7 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void GetAll()
 		{
-			var testee = new LehmaNautaLogic.FileInformationService();
+			var testee = new LNLI.FileInformationService();
 			var allPreTestDocs = testee.IT_GetAll();
 			var fileId = testee.Create(new DTO.FileInformation().Set("IT.a", "IT.b"));
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.

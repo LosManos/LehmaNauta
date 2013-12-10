@@ -5,14 +5,15 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using LehmaNautaLogic;
 
 [assembly: InternalsVisibleTo("LehmaNautaLogic.Test")]
-namespace LehmaNautaLogic
+namespace LehmaNautaLogicImplementation
 {
 	/// <summary>This class is for handling the very physical files.
 	/// As far as files are physical
 	/// </summary>
-	public class PhysicalfileService
+	public class PhysicalfileService : IPhysicalfileService
 	{
 		private const string Filename = "X";
 		
@@ -54,38 +55,15 @@ namespace LehmaNautaLogic
 		}
 
 		/// <summary>This method returns true if a File exists.
-		/// It is internal but only for automatic tests to work easily;
+		/// It is public but only for automatic tests to work easily;
 		/// consider it private
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		internal bool Exists(Guid id)
+		public bool Exists(Guid id)
 		{
 			return File.Exists(Path.Combine(RepositoryPath, id.ToString(), Filename));
 		}
 	}
 
-	public interface IPathfile
-	{
-		string Value { get; set; }
-	}
-
-	public interface ISourcePathfile : IPathfile
-	{
-
-	}
-
-	public class SourcePathfile : ISourcePathfile
-	{
-		public string Value { get; set; }
-		public SourcePathfile(){}
-		public SourcePathfile( string pathfile )
-		{
-			Set(pathfile);
-		}
-		private void Set(string pathfile)
-		{
-			this.Value = pathfile;
-		}
-	}
 }

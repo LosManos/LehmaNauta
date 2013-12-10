@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LNL = LehmaNautaLogic;
+using LNLI = LehmaNautaLogicImplementation;
 
 namespace LehmaNautaLogic.Test
 {
@@ -19,7 +20,7 @@ namespace LehmaNautaLogic.Test
 			const string SourcePathfile = @"..\..\Incoming\Fullrobin.txt";
 			CreateSourceFile(SourcePathfile);
 
-			var testee = new LNL.PhysicalfileService(RepositoryPath);
+			LNL.IPhysicalfileService testee = new LNLI.PhysicalfileService(RepositoryPath);
 			var id = Guid.NewGuid();
 
 			testee.Create(id, new LNL.SourcePathfile(SourcePathfile));

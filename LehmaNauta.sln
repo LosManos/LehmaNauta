@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNautaLogic", "LehmaNautaLogic\LehmaNautaLogic.csproj", "{19AD8C6F-7938-4220-94BC-1BC9B37862D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNautaLogic.Test", "LehmaNautaLogic.Test\LehmaNautaLogic.Test.csproj", "{46CAD4D9-2170-42F1-A56B-A53537AE4CEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNautaLogicImplementation", "LehmaNautaLogicImplementation\LehmaNautaLogicImplementation.csproj", "{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,10 @@ Global
 		{46CAD4D9-2170-42F1-A56B-A53537AE4CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46CAD4D9-2170-42F1-A56B-A53537AE4CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46CAD4D9-2170-42F1-A56B-A53537AE4CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

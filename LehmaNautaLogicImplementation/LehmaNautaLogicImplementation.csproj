@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19AD8C6F-7938-4220-94BC-1BC9B37862D6}</ProjectGuid>
+    <ProjectGuid>{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LehmaNautaLogic</RootNamespace>
-    <AssemblyName>LehmaNautaLogic</AssemblyName>
+    <RootNamespace>LehmaNautaLogicImplementation</RootNamespace>
+    <AssemblyName>LehmaNautaLogicImplementation</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.Client.2.5.2750\lib\net45\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.2.5.2750\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -41,14 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\FileInformationExtension.cs" />
-    <Compile Include="DTO\FileInformation.cs" />
-    <Compile Include="IFileInformationService.cs" />
-    <Compile Include="IPathFile.cs" />
-    <Compile Include="IPhysicalfileService.cs" />
-    <Compile Include="ISourcePathFile.cs" />
+    <Compile Include="FileInformationService.cs" />
+    <Compile Include="PhysicalfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SourcePathFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LehmaNautaLogic\LehmaNautaLogic.csproj">
+      <Project>{19ad8c6f-7938-4220-94bc-1bc9b37862d6}</Project>
+      <Name>LehmaNautaLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
