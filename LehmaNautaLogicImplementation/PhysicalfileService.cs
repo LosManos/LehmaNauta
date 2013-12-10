@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using LehmaNautaLogic;
+using LehmaNautaLogic.Inferface;
 
 [assembly: InternalsVisibleTo("LehmaNautaLogic.Test")]
 namespace LehmaNautaLogicImplementation

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LehmaNautaLogic
+namespace LehmaNautaLogic.Inferface
 {
 	public interface IPathfile
 	{

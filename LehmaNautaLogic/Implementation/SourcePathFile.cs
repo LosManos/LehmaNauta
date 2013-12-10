@@ -1,10 +1,11 @@
-﻿using System;
+﻿using LehmaNautaLogic.Inferface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LehmaNautaLogic
+namespace LehmaNautaLogic.Implementation
 {
 	public class SourcePathfile : ISourcePathfile
 	{

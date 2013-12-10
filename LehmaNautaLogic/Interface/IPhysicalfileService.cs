@@ -1,5 +1,6 @@
 ﻿using System;
-namespace LehmaNautaLogic
+
+namespace LehmaNautaLogic.Inferface
 {
 	public interface IPhysicalfileService
 	{
