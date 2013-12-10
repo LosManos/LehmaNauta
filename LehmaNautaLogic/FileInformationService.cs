@@ -7,7 +7,7 @@ using Raven.Client.Extensions;
 
 namespace LehmaNautaLogic
 {
-	public class FileInfoService
+	public class FileInformationService
 	{
 		private DocumentStore NewDocumentStore()
 		{
@@ -19,7 +19,7 @@ namespace LehmaNautaLogic
 			return new DocumentStore {Url = "http://localhost:8080/", DefaultDatabase = "LehmaNautaFile"};
 		}
 
-		public Guid Create(DTO.FileInfo fileInfo)
+		public Guid Create(DTO.FileInformation fileInfo)
 		{
 			using (var store = NewLehmaNautaStore())
 			{
@@ -43,7 +43,7 @@ namespace LehmaNautaLogic
 				store.Initialize();
 				using (var session = store.OpenSession())
 				{
-					var fileinfo = session.Load<DTO.FileInfo>(id);
+					var fileinfo = session.Load<DTO.FileInformation>(id);
 					session.Delete( fileinfo);
 					session.SaveChanges();
 				}
@@ -63,7 +63,7 @@ namespace LehmaNautaLogic
 		}
 
 		//TODO: Remove. Let GetAll be limited to testing assembly.
-		public IList<DTO.FileInfo> IT_GetAll()
+		public IList<DTO.FileInformation> IT_GetAll()
 		{
 			return GetAll();
 		}
@@ -77,7 +77,7 @@ namespace LehmaNautaLogic
 			}
 		}
 
-		public DTO.FileInfo Load(Guid id)
+		public DTO.FileInformation Load(Guid id)
 		{
 			using (var store = new DocumentStore { Url = "http://localhost:8080/", DefaultDatabase = "LehmaNautaFile" })
 			{
@@ -85,13 +85,13 @@ namespace LehmaNautaLogic
 
 				using (var session = store.OpenSession())
 				{
-					var ret = session.Load<DTO.FileInfo>(id);
+					var ret = session.Load<DTO.FileInformation>(id);
 					return ret;
 				}
 			}
 		}
 
-		private IList<DTO.FileInfo> GetAll()
+		private IList<DTO.FileInformation> GetAll()
 		{
 			using (var store = NewLehmaNautaStore())
 			{
@@ -99,7 +99,7 @@ namespace LehmaNautaLogic
 
 				using (var session = store.OpenSession())
 				{
-					var fileinfos = session.Query<DTO.FileInfo>();
+					var fileinfos = session.Query<DTO.FileInformation>();
 					return fileinfos.ToList();
 				}
 			}

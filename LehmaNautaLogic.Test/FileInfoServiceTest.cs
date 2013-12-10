@@ -11,7 +11,7 @@ namespace LehmaNautaLogic.Test
 		[TestInitialize]
 		public void Init()
 		{
-			var logic = new LehmaNautaLogic.FileInfoService();
+			var logic = new LehmaNautaLogic.FileInformationService();
 			logic.EnsureDatabaseExists();
 		}
 
@@ -19,8 +19,8 @@ namespace LehmaNautaLogic.Test
 		public void Create()
 		{
 			var before = DateTime.Now;
-			var testee = new LehmaNautaLogic.FileInfoService();
-			var fiIeID = testee.Create(new DTO.FileInfo().Set("IT.myfilename", "IT.myowner"));
+			var testee = new LehmaNautaLogic.FileInformationService();
+			var fiIeID = testee.Create(new DTO.FileInformation().Set("IT.myfilename", "IT.myowner"));
 			Assert.AreNotEqual(Guid.Empty, fiIeID);
 
 			var fileinfo = testee.Load(fiIeID);
@@ -33,10 +33,10 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void Delete()
 		{
-			var testee = new LehmaNautaLogic.FileInfoService();
+			var testee = new LehmaNautaLogic.FileInformationService();
 			var id = Guid.NewGuid();
 			var preCount = testee.IT_GetAll().Count;
-			var newFileinfo = new FileInfo().Set("IT.a", "IT.b");
+			var newFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			newFileinfo.Id = Guid.NewGuid();
 			testee.Create(newFileinfo);
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
@@ -50,9 +50,9 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void DeleteOld()
 		{
-			var testee = new LehmaNautaLogic.FileInfoService();
+			var testee = new LehmaNautaLogic.FileInformationService();
 			var preCount = testee.IT_GetAll().Count;
-			var pastFileinfo = new FileInfo().Set("IT.a", "IT.b");
+			var pastFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			pastFileinfo.Created = DateTime.Now.AddDays(-1).AddHours(-1);
 			testee.Create(pastFileinfo);
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
@@ -67,9 +67,9 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void GetAll()
 		{
-			var testee = new LehmaNautaLogic.FileInfoService();
+			var testee = new LehmaNautaLogic.FileInformationService();
 			var allPreTestDocs = testee.IT_GetAll();
-			var fileId = testee.Create(new DTO.FileInfo().Set("IT.a", "IT.b"));
+			var fileId = testee.Create(new DTO.FileInformation().Set("IT.a", "IT.b"));
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
 			var allPostTestDocs = testee.IT_GetAll();
 			Assert.IsTrue(allPreTestDocs.Count + 1 == allPostTestDocs.Count);

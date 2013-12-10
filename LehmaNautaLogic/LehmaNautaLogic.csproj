@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\FileInfoExtension.cs" />
-    <Compile Include="FileService.cs" />
-    <Compile Include="FileInfoService.cs" />
-    <Compile Include="DTO\FileInfo.cs" />
+    <Compile Include="DTO\FileInformationExtension.cs" />
+    <Compile Include="PhysicalfileService.cs" />
+    <Compile Include="FileInformationService.cs" />
+    <Compile Include="DTO\FileInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

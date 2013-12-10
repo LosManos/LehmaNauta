@@ -19,7 +19,7 @@ namespace LehmaNautaLogic.Test
 			const string SourcePathfile = @"..\..\Incoming\Fullrobin.txt";
 			CreateSourceFile(SourcePathfile);
 
-			var testee = new LNL.FileService(RepositoryPath);
+			var testee = new LNL.PhysicalfileService(RepositoryPath);
 			var id = Guid.NewGuid();
 
 			testee.Create(id, new LNL.SourcePathfile(SourcePathfile));

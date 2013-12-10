@@ -2,14 +2,14 @@ using System;
 
 namespace LehmaNautaLogic.DTO
 {
-	public static class FileInfoExtension
+	public static class FileInformationExtension
 	{
 		/// <summary>This method ensures we have an ID.
 		/// If there already is an ID we let it be.
 		/// </summary>
 		/// <param name="me"></param>
 		/// <returns></returns>
-		public static Guid EnsureID(this FileInfo me)
+		public static Guid EnsureID(this FileInformation me)
 		{
 			if (me.Id == Guid.Empty)
 			{
@@ -25,8 +25,8 @@ namespace LehmaNautaLogic.DTO
 		/// <param name="filename"></param>
 		/// <param name="owner"></param>
 		/// <returns></returns>
-		public static FileInfo Set(
-			this FileInfo me, 
+		public static FileInformation Set(
+			this FileInformation me, 
 			string filename,
 			string owner)
 		{

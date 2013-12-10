@@ -4,20 +4,23 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("LehmaNautaLogic.Test")]
 namespace LehmaNautaLogic
 {
 	/// <summary>This class is for handling the very physical files.
 	/// As far as files are physical
 	/// </summary>
-	public class FileService
+	public class PhysicalfileService
 	{
 		private const string Filename = "X";
+		
 		public string RepositoryPath { get; set; }
 
-		public FileService() { }
+		public PhysicalfileService() { }
 
-		public FileService(string repositoryPath)
+		public PhysicalfileService(string repositoryPath)
 		{
 			this.RepositoryPath = repositoryPath;
 		}
@@ -50,8 +53,13 @@ namespace LehmaNautaLogic
 			return ret;
 		}
 
-		//TODO:Will probably be private in the future.
-		public bool Exists(Guid id)
+		/// <summary>This method returns true if a File exists.
+		/// It is internal but only for automatic tests to work easily;
+		/// consider it private
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		internal bool Exists(Guid id)
 		{
 			return File.Exists(Path.Combine(RepositoryPath, id.ToString(), Filename));
 		}

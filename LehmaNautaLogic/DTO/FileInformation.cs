@@ -2,7 +2,7 @@
 
 namespace LehmaNautaLogic.DTO
 {
-	public class FileInfo
+	public class FileInformation
 	{
 		public Guid Id { get; set; }
 		public DateTime Created { get; set; }
