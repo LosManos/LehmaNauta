@@ -1,6 +1,6 @@
 ﻿namespace LehmaNautaLogic.Interface
 {
-	public interface ISourcePathfile : IPathfile
+	public interface ITargetPathfile : IPathfile
 	{
 
 	}

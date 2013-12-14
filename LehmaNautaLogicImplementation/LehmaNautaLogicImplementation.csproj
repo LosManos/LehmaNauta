@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlobService.cs" />
+    <Compile Include="Factory.cs" />
     <Compile Include="FileInformationService.cs" />
     <Compile Include="PhysicalfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

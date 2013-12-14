@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LNL = LehmaNautaLogic;
-using LNLInt = LehmaNautaLogic.Inferface;
+using LNLInt = LehmaNautaLogic.Interface;
 using LNLImp = LehmaNautaLogicImplementation;
 
 namespace LehmaNautaLogic.Test
@@ -13,7 +13,7 @@ namespace LehmaNautaLogic.Test
 	[TestClass]
 	public class FileServiceTest
 	{
-		private const string RepositoryPath = @"..\..\TI.RepoFolder";
+		private readonly LNLInt.IPathfile RepositoryPath = new LNL.Implementation.Pathfile(@"..\..\IT.RepoFolder");
 
 		[TestMethod]
 		public void FullRobin()

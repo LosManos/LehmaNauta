@@ -1,23 +1,11 @@
-﻿using LehmaNautaLogic.Inferface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LehmaNautaLogic.Interface;
 
 namespace LehmaNautaLogic.Implementation
 {
-	public class SourcePathfile : ISourcePathfile
+	public class SourcePathfile : Pathfile, ISourcePathfile
 	{
-		public string Value { get; set; }
 		public SourcePathfile() { }
-		public SourcePathfile(string pathfile)
-		{
-			Set(pathfile);
-		}
-		private void Set(string pathfile)
-		{
-			this.Value = pathfile;
-		}
+		public SourcePathfile(string pathfile) 
+		:base(pathfile){ }
 	}
 }

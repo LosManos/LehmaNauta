@@ -2,6 +2,8 @@ RavenDb/
 *.dll
 packages/
 incoming/
+IT.RepoFolder/
+IT.WorkFolder/
 
 #################
 ## Eclipse

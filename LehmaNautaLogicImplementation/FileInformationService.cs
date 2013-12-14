@@ -6,7 +6,7 @@ using Raven.Client.Document;
 using Raven.Client.Extensions;
 using LehmaNautaLogic;
 using LehmaNautaLogic.DTO;
-using LehmaNautaLogic.Inferface;
+using LehmaNautaLogic.Interface;
 
 namespace LehmaNautaLogicImplementation
 {

@@ -3,7 +3,7 @@ using System.Threading;
 using LehmaNautaLogic.DTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LNL = LehmaNautaLogic;
-using LNLInt = LehmaNautaLogic.Inferface;
+using LNLInt = LehmaNautaLogic.Interface;
 using LNLImp = LehmaNautaLogicImplementation;
 
 namespace LehmaNautaLogic.Test
@@ -53,7 +53,9 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void DeleteOld()
 		{
+			//	Given.
 			LNLInt.IFileInformationService testee = new LNLImp.FileInformationService();
+			testee.DeleteOld();
 			var preCount = testee.IT_GetAll().Count;
 			var pastFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			pastFileinfo.Created = DateTime.Now.AddDays(-1).AddHours(-1);
@@ -63,7 +65,11 @@ namespace LehmaNautaLogic.Test
 			Assert.IsTrue(preCount < postCount);
 			testee.DeleteOld();
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
+
+			//	Do.
 			var postPostCount = testee.IT_GetAll().Count;
+	
+			//	Assert.
 			Assert.IsTrue(preCount <= postPostCount);
 		}
 

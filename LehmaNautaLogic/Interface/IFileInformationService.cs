@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LehmaNautaLogic.Inferface
+namespace LehmaNautaLogic.Interface
 {
 	public interface IFileInformationService
 	{

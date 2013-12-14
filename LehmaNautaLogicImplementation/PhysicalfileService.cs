@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using LehmaNautaLogic;
-using LehmaNautaLogic.Inferface;
+using LehmaNautaLogic.Interface;
 
 [assembly: InternalsVisibleTo("LehmaNautaLogic.Test")]
 namespace LehmaNautaLogicImplementation
@@ -18,11 +18,11 @@ namespace LehmaNautaLogicImplementation
 	{
 		private const string Filename = "X";
 		
-		public string RepositoryPath { get; set; }
+		public IPathfile RepositoryPath { get; set; }
 
 		public PhysicalfileService() { }
 
-		public PhysicalfileService(string repositoryPath)
+		public PhysicalfileService(IPathfile repositoryPath)
 		{
 			this.RepositoryPath = repositoryPath;
 		}
@@ -36,7 +36,7 @@ namespace LehmaNautaLogicImplementation
 		/// <param name="sourcePathfile"></param>
 		public void Create( Guid id, ISourcePathfile sourcePathfile)
 		{
-			var destPath = Path.Combine(RepositoryPath, id.ToString());
+			var destPath = Path.Combine(RepositoryPath.Value, id.ToString());
 			var destPathfile = Path.Combine( destPath, Filename);
 			Directory.CreateDirectory(destPath);
 			File.Copy(sourcePathfile.Value, destPathfile);
@@ -49,7 +49,7 @@ namespace LehmaNautaLogicImplementation
 		/// <returns></returns>
 		public string Get(Guid id)
 		{
-			var pathfile = Path.Combine(RepositoryPath, id.ToString(), Filename);
+			var pathfile = Path.Combine(RepositoryPath.Value, id.ToString(), Filename);
 			var ret = File.ReadAllText( pathfile );
 			File.Delete(pathfile);
 			return ret;
@@ -63,7 +63,7 @@ namespace LehmaNautaLogicImplementation
 		/// <returns></returns>
 		public bool Exists(Guid id)
 		{
-			return File.Exists(Path.Combine(RepositoryPath, id.ToString(), Filename));
+			return File.Exists(Path.Combine(RepositoryPath.Value, id.ToString(), Filename));
 		}
 	}
 
