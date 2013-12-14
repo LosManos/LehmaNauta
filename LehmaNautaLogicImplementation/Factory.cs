@@ -5,13 +5,19 @@ namespace LehmaNautaLogicImplementation
 {
 	/// <summary>This is a Very simple factory class.
 	/// </summary>
-	public static class Factory
+	public class Factory
 	{
-		private const string RepositoryPath = @"..\..\TI.Repofolder";	//	TODO:	Make settable proper.
+		private readonly string _repositoryPath;
+		//@"..\..\TI.Repofolder";	//	TODO:	Make settable proper.
 
-		public static LNLInt.IBlobService CreateBlobService()
+		public Factory( string repositoryPath )
 		{
-			return new BlobService(new LNL.Implementation.TargetPathfile(RepositoryPath));
+			_repositoryPath = repositoryPath;
+		}
+
+		public LNLInt.IBlobService CreateBlobService()
+		{
+			return new BlobService(new LNL.Implementation.TargetPathfile(_repositoryPath));
 		}
 	}
 }

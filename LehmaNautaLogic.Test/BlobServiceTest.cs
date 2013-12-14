@@ -25,7 +25,7 @@ namespace LehmaNautaLogic.Test
 				true
 			);
 			var owner = "IT." + Guid.NewGuid().ToString();
-			var blobService = LNLImp.Factory.CreateBlobService();
+			var blobService = new LNLImp.Factory(RepoFolder).CreateBlobService();
 
 			//	Do.
 			blobService.Create(owner, new LNL.Implementation.SourcePathfile(
@@ -58,7 +58,7 @@ namespace LehmaNautaLogic.Test
 			Assert.IsFalse( File.Exists( targetPathfile.Value));
 
 			var owner = "IT." + Guid.NewGuid().ToString();
-			var blobService = LNLImp.Factory.CreateBlobService();
+			var blobService = new LNLImp.Factory(RepoFolder).CreateBlobService();
 			var id = blobService.Create(owner, sourcePathfile);
 			System.IO.File.Delete(targetPathfile.Value);
 			Assert.IsFalse(System.IO.File.Exists(targetPathfile.Value));
