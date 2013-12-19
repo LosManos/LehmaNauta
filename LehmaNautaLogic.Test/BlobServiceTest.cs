@@ -15,7 +15,7 @@ namespace LehmaNautaLogic.Test
 		private const string WorkFolder = @"..\..\IT.WorkFolder";
 
 		[TestMethod]
-		public void Create()
+		public void GivenCreateShouldDeleteSourceFile()
 		{
 			//	Given.
 			const string Filename = "Create.txt";
@@ -49,7 +49,7 @@ namespace LehmaNautaLogic.Test
 			var sourcePathfile = new LNL.Implementation.SourcePathfile( 
 				Path.Combine(WorkFolder, Filename1)
 			);
-			File.Copy(Path.Combine(FileFolder, Filename1), sourcePathfile.Value);
+			File.Copy(Path.Combine(FileFolder, Filename1), sourcePathfile.Value, true);
 			Assert.IsTrue( File.Exists( sourcePathfile.Value));
 			var targetPathfile = new LNL.Implementation.TargetPathfile(
 				Path.Combine(WorkFolder, Filename2)
@@ -64,11 +64,15 @@ namespace LehmaNautaLogic.Test
 			Assert.IsFalse(System.IO.File.Exists(targetPathfile.Value));
 
 			//	Do.
-			var res = blobService.Get(id, targetPathfile);
-
+			var resBefore = blobService.Get(id, targetPathfile);
 			//	Assert.
-			Assert.IsTrue(res);
 			Assert.IsTrue(System.IO.File.Exists(targetPathfile.Value));
+			Assert.IsTrue(resBefore);
+
+			//Do.
+			var resAfter = blobService.Get(id, targetPathfile);
+			//	Assert.
+			Assert.IsFalse(resAfter);
 		}
 	}
 }

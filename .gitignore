@@ -4,6 +4,7 @@ packages/
 incoming/
 IT.RepoFolder/
 IT.WorkFolder/
+IT.Repository/
 
 #################
 ## Eclipse
