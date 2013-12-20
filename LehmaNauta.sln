@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNautaLogic.Test", "Leh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNautaLogicImplementation", "LehmaNautaLogicImplementation\LehmaNautaLogicImplementation.csproj", "{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{ACE762F5-CE63-4E1C-B76F-F9FA15781718}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{59ADC231-4FA0-40B2-8B41-088CCBC396E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{6C71AAFE-50DE-4CA1-8BC8-8A9E4A23388A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +36,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46CAD4D9-2170-42F1-A56B-A53537AE4CEB} = {ACE762F5-CE63-4E1C-B76F-F9FA15781718}
+		{19AD8C6F-7938-4220-94BC-1BC9B37862D6} = {6C71AAFE-50DE-4CA1-8BC8-8A9E4A23388A}
+		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB} = {6C71AAFE-50DE-4CA1-8BC8-8A9E4A23388A}
 	EndGlobalSection
 EndGlobal
