@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{6C71AAFE-50DE-4CA1-8BC8-8A9E4A23388A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonymousWeb", "AnonymousWeb\AnonymousWeb.csproj", "{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonymousWeb.Tests", "AnonymousWeb.Tests\AnonymousWeb.Tests.csproj", "{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EFA3D7-F942-4B80-B0D2-E5668DBBB2FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
