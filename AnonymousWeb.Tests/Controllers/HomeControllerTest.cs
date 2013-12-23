@@ -50,10 +50,10 @@ namespace AnonymousWeb.Tests.Controllers
 			Assert.AreEqual(1, model.Files.Count);
 			Assert.AreEqual("MyFilename", model.Files.Single().PathFile);
 			Assert.AreEqual(42, model.Files.Single().Length);
-
-			//TODO:	Also check that the file is really copied. 
-			//	I haven't managed that. Since we mock HttpPosteFileBase
-			//	we also lose the functionality of SaveAs(string).
+			mFile.Verify( f => f.SaveAs(
+				Path.Combine( (System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location)),
+				@"MyFilename")
+			), Times.Once());
 		}
 
 		[TestMethod]
