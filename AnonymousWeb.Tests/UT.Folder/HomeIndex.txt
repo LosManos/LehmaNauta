@@ -1,0 +1,2 @@
+﻿# This is example text.
+This file is used by a test.

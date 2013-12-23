@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AnonymousWeb;
 using AnonymousWeb.Controllers;
+using Moq;
+using System.Web;
+using System.IO;
 
 namespace AnonymousWeb.Tests.Controllers
 {
@@ -16,20 +19,51 @@ namespace AnonymousWeb.Tests.Controllers
 		public void Index()
 		{
 			// Arrange
-			HomeController controller = new HomeController();
+			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
+			mHttpContextServer.Setup(s => s.MapPath("~/Uploads")).Returns(System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location));
+			HomeController controller = new HomeController(
+				mHttpContextServer.Object
+				);
+			
+			//	Copied with pride from: 
+			//	http://blog.csainty.com/2009/01/aspnet-mvc-unit-test-file-upload-with.html
+			//	I have't been ableto mock GetEnumerator to make it work with foreach..
+			var mFile = new Mock<HttpPostedFileBase>();
+			mFile.Setup(f => f.FileName).Returns("MyFilename");
+			mFile.Setup(f => f.ContentLength).Returns(42);
+			mFile.Setup(f => f.InputStream).Returns(
+				new FileStream(@"..\..\UT.Folder\HomeIndex.txt", FileMode.Open, FileAccess.Read));
+
+			var mCC = new Mock<ControllerContext>();
+			mCC.Setup(d => d.HttpContext.Request.Files.Count).Returns(1);
+			mCC.Setup(d => d.HttpContext.Request.Files[0]).Returns(mFile.Object);
+
+			controller.ControllerContext = mCC.Object;
 
 			// Act
 			ViewResult result = controller.Index() as ViewResult;
 
 			// Assert
 			Assert.IsNotNull(result);
+			Assert.IsInstanceOfType(result.Model, typeof(Models.HomeIndexViewmodel));
+			var model = (Models.HomeIndexViewmodel)result.Model;
+			Assert.AreEqual(1, model.Files.Count);
+			Assert.AreEqual("MyFilename", model.Files.Single().PathFile);
+			Assert.AreEqual(42, model.Files.Single().Length);
+
+			//TODO:	Also check that the file is really copied. 
+			//	I haven't managed that. Since we mock HttpPosteFileBase
+			//	we also lose the functionality of SaveAs(string).
 		}
 
 		[TestMethod]
 		public void About()
 		{
 			// Arrange
-			HomeController controller = new HomeController();
+			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
+			HomeController controller = new HomeController(
+				mHttpContextServer.Object
+			);
 
 			// Act
 			ViewResult result = controller.About() as ViewResult;
@@ -42,7 +76,10 @@ namespace AnonymousWeb.Tests.Controllers
 		public void Contact()
 		{
 			// Arrange
-			HomeController controller = new HomeController();
+			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
+			HomeController controller = new HomeController(
+				mHttpContextServer.Object
+			);
 
 			// Act
 			ViewResult result = controller.Contact() as ViewResult;
