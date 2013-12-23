@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LNLI = LehmaNautaLogicImplementation;
 
 namespace AnonymousWeb.Controllers
 {
@@ -29,6 +30,9 @@ namespace AnonymousWeb.Controllers
 		{
 			//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
 			var ret = UploadFiles(Request.Files);
+
+//			var lnl = new LNLI.Factory();
+
 			return View(ret);
 		}
 
@@ -46,6 +50,11 @@ namespace AnonymousWeb.Controllers
 			return View();
 		}
 
+		/// <summary>This method copies the files from the http stream
+		/// into a folder.
+		/// </summary>
+		/// <param name="requestFiles"></param>
+		/// <returns></returns>
 		private Models.HomeIndexViewmodel UploadFiles(HttpFileCollectionBase requestFiles)
 		{
 			var ret = Models.HomeIndexViewmodel.Create();
