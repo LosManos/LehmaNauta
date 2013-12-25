@@ -1,4 +1,5 @@
-﻿using LNL = LehmaNautaLogic;
+﻿using System.Diagnostics;
+using LNL = LehmaNautaLogic;
 using LNLInt = LehmaNautaLogic.Interface;
 
 namespace LehmaNautaLogicImplementation
@@ -12,6 +13,7 @@ namespace LehmaNautaLogicImplementation
 
 		public Factory( string repositoryPath )
 		{
+			Debug.Assert(false == string.IsNullOrEmpty( repositoryPath ), "Null value not allowed.");
 			_repositoryPath = repositoryPath;
 		}
 

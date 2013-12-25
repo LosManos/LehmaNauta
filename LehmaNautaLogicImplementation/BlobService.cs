@@ -13,6 +13,15 @@ namespace LehmaNautaLogicImplementation
 			_repositoryPathfile = repositoryPathfile;
 		}
 
+		/// <summary>This method creates a FilInformation record and a file in the file system.
+		/// The record is identified by the key (a guid) returned.
+		/// Through this one can also find the file.
+		/// Sideffect:
+		/// Finally the original file is deleted.
+		/// </summary>
+		/// <param name="owner"></param>
+		/// <param name="sourcePathfile"></param>
+		/// <returns></returns>
 		public Guid Create(string owner, LNLInt.ISourcePathfile sourcePathfile)
 		{
 			LNLInt.IFileInformationService fis = new FileInformationService();

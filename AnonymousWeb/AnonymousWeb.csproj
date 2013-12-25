@@ -159,6 +159,10 @@
       <Project>{77efa3d7-f942-4b80-b0d2-e5668dbbb2fb}</Project>
       <Name>LehmaNautaLogicImplementation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LehmaNautaLogic\LehmaNautaLogic.csproj">
+      <Project>{19ad8c6f-7938-4220-94bc-1bc9b37862d6}</Project>
+      <Name>LehmaNautaLogic</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

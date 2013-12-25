@@ -18,26 +18,49 @@ namespace AnonymousWeb.Tests.Controllers
 		[TestMethod]
 		public void Index()
 		{
-			// Arrange
+			//	#	Arrange.
+			//	##	Arrange folders and files. At least names of.
+			var Filename = "HomeIndex.txt";	//	Presently the only file we juggle in this test.
+			var UploadPath = //	Where we mock HomeController.Index is storing the files it is sent.
+					Path.Combine(
+						System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location), 
+						@"..\..\Uploads"
+					);
+			var UploadPathfile = Path.Combine( UploadPath, Filename);
+			var UtPath = @"..\..\UT.Folder";	//	Where we find our files to work with.
+			var UtPathfilename = Path.Combine( UtPath, Filename);
+
+			//	##	Arrange mocking of HttpContextServer.
 			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
-			mHttpContextServer.Setup(s => s.MapPath("~/Uploads")).Returns(System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location));
+			mHttpContextServer.Setup(s => s.MapPath("~/Uploads"))
+				.Returns( UploadPath );
 			HomeController controller = new HomeController(
 				mHttpContextServer.Object
-				);
+			);
 			
+			//	##	Arrange mocking of HttpPostedFilebase.
 			//	Copied with pride from: 
 			//	http://blog.csainty.com/2009/01/aspnet-mvc-unit-test-file-upload-with.html
-			//	I have't been ableto mock GetEnumerator to make it work with foreach..
+			//	I have't been ableto mock GetEnumerator to make it work with foreach.
 			var mFile = new Mock<HttpPostedFileBase>();
-			mFile.Setup(f => f.FileName).Returns("MyFilename");
-			mFile.Setup(f => f.ContentLength).Returns(42);
+			mFile.Setup(f => f.FileName).Returns(Filename);	//	This is the file name we get from the web client/user.
+			mFile.Setup(f => f.ContentLength).Returns(42);	//	This is the length of the file we get from the web client/user. It shouldn't be hard coded to 42 but instead read from the file we use when testing but hard coding a value solves the problem for now.
 			mFile.Setup(f => f.InputStream).Returns(
-				new FileStream(@"..\..\UT.Folder\HomeIndex.txt", FileMode.Open, FileAccess.Read));
+				new FileStream (UtPathfilename, FileMode.Open, FileAccess.Read)
+				);	//	Here is another mocking trick; we use a physical file for returning a stream.
+			
+			//	Mock file.SaveAs. Since we only call it once we don't bother about the parameter.
+			//	SaveAs saves a file. We have to do that manually here since we mock.
+			mFile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback(() =>
+				{
+					File.Copy(UtPathfilename, UploadPathfile);
+				}
+			);
 
 			var mCC = new Mock<ControllerContext>();
 			mCC.Setup(d => d.HttpContext.Request.Files.Count).Returns(1);
 			mCC.Setup(d => d.HttpContext.Request.Files[0]).Returns(mFile.Object);
-
+				
 			controller.ControllerContext = mCC.Object;
 
 			// Act
@@ -48,12 +71,9 @@ namespace AnonymousWeb.Tests.Controllers
 			Assert.IsInstanceOfType(result.Model, typeof(Models.HomeIndexViewmodel));
 			var model = (Models.HomeIndexViewmodel)result.Model;
 			Assert.AreEqual(1, model.Files.Count);
-			Assert.AreEqual("MyFilename", model.Files.Single().PathFile);
+			Assert.AreEqual(UploadPathfile, model.Files.Single().PathFile);
 			Assert.AreEqual(42, model.Files.Single().Length);
-			mFile.Verify( f => f.SaveAs(
-				Path.Combine( (System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location)),
-				@"MyFilename")
-			), Times.Once());
+			mFile.Verify( f => f.SaveAs(It.IsAny<string>()), Times.Once());
 		}
 
 		[TestMethod]
