@@ -17,7 +17,7 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void GivenCreateShouldDeleteSourceFile()
 		{
-			//	Given.
+			//	#	Arrange.
 			const string Filename = "Create.txt";
 			File.Copy( 
 				Path.Combine( FileFolder, Filename), 
@@ -27,11 +27,11 @@ namespace LehmaNautaLogic.Test
 			var owner = "IT." + Guid.NewGuid().ToString();
 			var blobService = new LNLImp.Factory(RepoFolder).CreateBlobService();
 
-			//	Do.
+			//	#	Act.
 			blobService.Create(owner, new LNL.Implementation.SourcePathfile(
 				Path.Combine( WorkFolder, Filename)));
 
-			//	Assert.
+			//	#	Assert.
 			Assert.IsFalse(File.Exists(
 				Path.Combine( WorkFolder, Filename)
 			));

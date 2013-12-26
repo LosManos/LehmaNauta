@@ -55,7 +55,7 @@ namespace AnonymousWeb.Tests.Controllers
 			//	as a target for Uploadfile?
 			mFile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback(() =>
 				{
-					File.Copy(UtPathfilename, UploadPathfile);
+					File.Copy(UtPathfilename, UploadPathfile, true);
 				}
 			);
 
@@ -75,7 +75,7 @@ namespace AnonymousWeb.Tests.Controllers
 			Assert.IsInstanceOfType(result.Model, typeof(Models.HomeIndexViewmodel));
 			var model = (Models.HomeIndexViewmodel)result.Model;
 			Assert.AreEqual(1, model.Files.Count);
-			Assert.AreEqual(UploadPathfile, model.Files.Single().PathFile);
+			Assert.AreEqual(Filename, model.Files.Single().Filename);
 			Assert.AreEqual(42, model.Files.Single().Length);
 			mFile.Verify( f => f.SaveAs(It.IsAny<string>()), Times.Once());
 		}

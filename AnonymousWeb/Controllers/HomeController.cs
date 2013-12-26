@@ -13,6 +13,7 @@ namespace AnonymousWeb.Controllers
 	public class HomeController : Controller
 	{
 		private const string RepositoryPathKey = "RepositoryPath";
+		private const string UploadPath = "~/Uploads";
 
 		public HttpServerUtilityBase _httpContextServer;
 
@@ -38,7 +39,7 @@ namespace AnonymousWeb.Controllers
 		public ActionResult Index()
 		{
 			//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
-			var model = UploadFiles(Request.Files);
+			var model = UploadFiles( _httpContextServer, Request.Files);
 
 			var owner = Guid.NewGuid();
 
@@ -69,7 +70,8 @@ namespace AnonymousWeb.Controllers
 			foreach (var file in files)
 			{
 				blobService.Create(owner.ToString(),
-					new LehmaNautaLogic.Implementation.SourcePathfile(file.PathFile)
+					new LehmaNautaLogic.Implementation.SourcePathfile(
+						Path.Combine(_httpContextServer.MapPath(UploadPath), file.Filename))
 				);
 			}
 		}
@@ -78,18 +80,22 @@ namespace AnonymousWeb.Controllers
 		/// <summary>This method copies the files from the http stream
 		/// into a folder.
 		/// </summary>
+		/// <param name="httpContextServer"></param>
 		/// <param name="requestFiles"></param>
 		/// <returns></returns>
-		private Models.HomeIndexViewmodel UploadFiles(HttpFileCollectionBase requestFiles)
+		private static Models.HomeIndexViewmodel UploadFiles(
+			HttpServerUtilityBase httpContextServer, 
+			HttpFileCollectionBase requestFiles
+		)
 		{
 			var ret = Models.HomeIndexViewmodel.Create();
 
 			//	We use a for loop here instead of a foreach because I haven't
 			//	got mocking to work with foreach yet.
-			for (var i = 0; i < Request.Files.Count; ++i)
+			for (var i = 0; i < requestFiles.Count; ++i)
 			{
-				var inputTagName = Request.Files[i];
-				HttpPostedFileBase file = Request.Files[i];
+				var inputTagName = requestFiles[i];
+				HttpPostedFileBase file = requestFiles[i];
 
 				//	If we have a file with a size at all. I don't know why but this seems like a
 				//	necessary test.
@@ -98,7 +104,8 @@ namespace AnonymousWeb.Controllers
 					//	Create the full path to where we store the file.
 					//TODO:	Move "Upload" folder to be a setting either in web config
 					//	or as a public property, at least readable. If it remains here it is too "secret".
-					var filePath = Path.Combine(_httpContextServer.MapPath("~/Uploads"),
+					var filePath = Path.Combine(
+						httpContextServer.MapPath(UploadPath),
 						Path.GetFileName(file.FileName));
 
 					//	Save the file on disc.
@@ -107,7 +114,7 @@ namespace AnonymousWeb.Controllers
 					//	Create something to return.
 					ret.Files.Add(
 						new Models.HomeIndexViewmodel.FileInformation(
-							filePath, 
+							Path.GetFileName( file.FileName ), 
 							file.ContentLength));
 				}
 			}
