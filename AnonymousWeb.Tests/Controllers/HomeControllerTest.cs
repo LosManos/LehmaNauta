@@ -51,12 +51,16 @@ namespace AnonymousWeb.Tests.Controllers
 			
 			//	Mock file.SaveAs. Since we only call it once we don't bother about the parameter.
 			//	SaveAs saves a file. We have to do that manually here since we mock.
+			//	Can we use the value of the parameter to SaveAs (presently It.IsAny<string>
+			//	as a target for Uploadfile?
 			mFile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback(() =>
 				{
 					File.Copy(UtPathfilename, UploadPathfile);
 				}
 			);
 
+			//	##	Arrange mocking of ControllerContext.
+			//	This is used by the controller to handle the file(s) that come(s) with the request.
 			var mCC = new Mock<ControllerContext>();
 			mCC.Setup(d => d.HttpContext.Request.Files.Count).Returns(1);
 			mCC.Setup(d => d.HttpContext.Request.Files[0]).Returns(mFile.Object);
