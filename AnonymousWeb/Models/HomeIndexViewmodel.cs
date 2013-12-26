@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LehmaNauta.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -31,12 +32,9 @@ namespace AnonymousWeb.Models
 
 			private void Set(string filename, int length)
 			{
-				if (null == filename) { throw new ArgumentNullException("filename"); }
-				if( filename.Contains( Path.DirectorySeparatorChar) ||
-					filename.Contains(Path.VolumeSeparatorChar))
-				{
-					throw new ArgumentException("Filename contains invalid character.", "filename");
-				}
+				Assert.Argument.Called("filename")
+					.IsNotNullAndDoesOnlyContainFilename( filename );
+
 				this.Filename = filename;
 				this.Length = length;
 			}

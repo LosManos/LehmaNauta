@@ -1,6 +1,7 @@
 ﻿using System;
 using LNLInt = LehmaNautaLogic.Interface;
 using LehmaNautaLogic.DTO;
+using System.IO;
 
 namespace LehmaNautaLogicImplementation
 {
@@ -25,7 +26,9 @@ namespace LehmaNautaLogicImplementation
 		public Guid Create(string owner, LNLInt.ISourcePathfile sourcePathfile)
 		{
 			LNLInt.IFileInformationService fis = new FileInformationService();
-			var id = fis.Create(new FileInformation().Set(sourcePathfile.Value, owner));
+			var id = fis.Create(new FileInformation().Set(
+				Path.GetFileName( sourcePathfile.Value), 
+				owner));
 
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);
 			pfs.Create(id, sourcePathfile);

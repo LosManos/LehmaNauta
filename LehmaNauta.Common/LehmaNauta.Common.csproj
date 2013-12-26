@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19AD8C6F-7938-4220-94BC-1BC9B37862D6}</ProjectGuid>
+    <ProjectGuid>{998F93E8-F035-4776-B71C-C4D94E68A9EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LehmaNautaLogic</RootNamespace>
-    <AssemblyName>LehmaNautaLogic</AssemblyName>
+    <RootNamespace>LehmaNauta.Common</RootNamespace>
+    <AssemblyName>LehmaNauta.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,25 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\FileInformationExtension.cs" />
-    <Compile Include="DTO\FileInformation.cs" />
-    <Compile Include="Implementation\Pathfile.cs" />
-    <Compile Include="Implementation\TargetPathfile.cs" />
-    <Compile Include="Interface\IBlobService.cs" />
-    <Compile Include="Interface\IFileInformationService.cs" />
-    <Compile Include="Interface\IPathFile.cs" />
-    <Compile Include="Interface\IPhysicalfileService.cs" />
-    <Compile Include="Interface\ISourcePathfile.cs" />
-    <Compile Include="Interface\ITargetPathffle.cs" />
+    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implementation\SourcePathfile.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LehmaNauta.Common\LehmaNauta.Common.csproj">
-      <Project>{998f93e8-f035-4776-b71c-c4d94e68a9ea}</Project>
-      <Name>LehmaNauta.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

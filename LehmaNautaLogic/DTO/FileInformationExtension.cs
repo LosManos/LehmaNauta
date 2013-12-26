@@ -1,3 +1,4 @@
+using LehmaNauta.Common;
 using System;
 
 namespace LehmaNautaLogic.DTO
@@ -30,6 +31,9 @@ namespace LehmaNautaLogic.DTO
 			string filename,
 			string owner)
 		{
+			Assert.Argument.Called("filename")
+				.IsNotNullAndDoesOnlyContainFilename(filename);
+			
 			me.Filename = filename;
 			me.Created = me.Created > DateTime.Now ? me.Created : DateTime.Now;
 			me.Owner = owner;
