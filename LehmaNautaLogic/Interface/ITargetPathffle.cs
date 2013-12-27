@@ -2,6 +2,6 @@
 {
 	public interface ITargetPathfile : IPathfile
 	{
-
+		ITargetPathfile ToITargetPathfile();
 	}
 }

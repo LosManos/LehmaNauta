@@ -7,5 +7,11 @@ namespace LehmaNautaLogic.Implementation
 		public TargetPathfile() { }
 		public TargetPathfile(string pathfile)
 		:base(pathfile){ }
+
+		public ITargetPathfile ToITargetPathfile()
+		{
+			return (ITargetPathfile)this;
+		}
+
 	}
 }

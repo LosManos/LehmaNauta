@@ -14,9 +14,12 @@ namespace AnonymousWeb.Controllers
 	{
 		private const string RepositoryPathKey = "RepositoryPath";
 		private const string UploadPath = "~/Uploads";
+		private const string DownloadPath = "~/Downloads";
 
 		public HttpServerUtilityBase _httpContextServer;
 
+		#region Constructors.
+		
 		public HomeController() 
 			:this( new HttpServerUtilityWrapper( System.Web.HttpContext.Current.Server))
 		{
@@ -36,16 +39,39 @@ namespace AnonymousWeb.Controllers
 			_httpContextServer = server;
 		}
 
-		public ActionResult Index()
+		#endregion	//	Constructors.
+
+		public ActionResult Index( string id = null)
 		{
-			//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
-			var model = UploadFiles( _httpContextServer, Request.Files);
+			///	This function stores the file(s) in the request in the respository and database.
+			Func<Models.HomeIndexViewmodel> StoreFiles = delegate()
+			{
+				//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
+				var model = UploadFiles(_httpContextServer, Request.Files);
 
-			var owner = Guid.NewGuid();
+				var owner = Guid.NewGuid();
 
-			SendFilesToRepository(owner, model.Files);
+				CreateFileInformationInRepository(owner, model.Files);
 
-			return View(model);
+				return model;
+			};
+
+			///	This function retrieves a file from the respository and database.
+			Func<Guid, Models.HomeIndexViewmodel> RetrieveFiles = delegate(Guid uid)
+			{
+				var downloadPathForFile =
+					new LehmaNautaLogic.Implementation.TargetPath(
+						_httpContextServer.MapPath( Path.Combine( DownloadPath, uid.ToString() )
+					));
+				var model = GetFileInformationFromRepository(uid, downloadPathForFile);
+				return model;
+			};
+
+			var retModel = (null == id) ?
+				StoreFiles() :
+				RetrieveFiles(Guid.Parse(id) );
+
+			return View(retModel);
 		}
 
 		public ActionResult About()
@@ -62,7 +88,12 @@ namespace AnonymousWeb.Controllers
 			return View();
 		}
 
-		private void SendFilesToRepository(Guid owner, ICollection<Models.HomeIndexViewmodel.FileInformation> files)
+		/// <summary>This method creates file information in the database.
+		/// 
+		/// </summary>
+		/// <param name="owner"></param>
+		/// <param name="files"></param>
+		private void CreateFileInformationInRepository(Guid owner, ICollection<Models.HomeIndexViewmodel.FileInformation> files)
 		{
 			var ln = new LNLImp.Factory( ConfigurationManager.AppSettings[RepositoryPathKey]);
 			var blobService = ln.CreateBlobService();
@@ -76,6 +107,45 @@ namespace AnonymousWeb.Controllers
 			}
 		}
 
+		/// <summary>This method retrieves the file information from the database
+		/// and copies the file to the folder in the path.
+		/// The file is then \MyDownloadpath\xxx\yyy
+		/// where xxx is the UID for the blob
+		/// and yyy is the name of the file.
+		/// </summary>
+		/// <param name="fileinformationId"></param>
+		/// <param name="downloadPath"></param>
+		/// <returns></returns>
+		private static Models.HomeIndexViewmodel GetFileInformationFromRepository(
+			Guid fileinformationId, 
+			LNLInt.ITargetPath downloadPath )
+		{
+			var ln = new LNLImp.Factory(ConfigurationManager.AppSettings[RepositoryPathKey]);
+			var blobService = ln.CreateBlobService();
+
+			var ret = Models.HomeIndexViewmodel.Create();
+
+			var fileinformation= blobService.Get(
+				fileinformationId,
+				downloadPath
+			);
+
+			if (null == fileinformation)
+			{
+				//	The blob/file couldn't be fetched.
+			}
+			else
+			{
+				ret.Files.Add(
+					new Models.HomeIndexViewmodel.FileInformation(
+						fileinformation.Filename,
+						0	//TODO:	Implement to get real size of file.
+					)
+				);
+			}
+
+			return ret;
+		}
 
 		/// <summary>This method copies the files from the http stream
 		/// into a folder.

@@ -16,7 +16,7 @@ namespace AnonymousWeb.Tests.Controllers
 	public class HomeControllerTest
 	{
 		[TestMethod]
-		public void Index()
+		public void Home_Index_WithNoArgument()
 		{
 			//	#	Arrange.
 			//	##	Arrange folders and files. At least names of.

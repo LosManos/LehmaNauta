@@ -53,6 +53,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LehmaNauta.Common\LehmaNauta.Common.csproj">
+      <Project>{998f93e8-f035-4776-b71c-c4d94e68a9ea}</Project>
+      <Name>LehmaNauta.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LehmaNautaLogic\LehmaNautaLogic.csproj">
       <Project>{19ad8c6f-7938-4220-94bc-1bc9b37862d6}</Project>
       <Name>LehmaNautaLogic</Name>

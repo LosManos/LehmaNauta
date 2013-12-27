@@ -43,7 +43,7 @@ namespace LehmaNautaLogic.Test
 		[TestMethod]
 		public void Get()
 		{
-			//	Given.
+			//	#	Arrange
 			const string Filename1 = "Get.txt";
 			const string Filename2 = "Get.result.txt";
 			var sourcePathfile = new LNL.Implementation.SourcePathfile( 
@@ -51,7 +51,9 @@ namespace LehmaNautaLogic.Test
 			);
 			File.Copy(Path.Combine(FileFolder, Filename1), sourcePathfile.Value, true);
 			Assert.IsTrue( File.Exists( sourcePathfile.Value));
-			var targetPathfile = new LNL.Implementation.TargetPathfile(
+			LNLInt.ITargetPath targetPath = new LNL.Implementation.TargetPath(
+				WorkFolder);
+			LNLInt.ITargetPathfile targetPathfile = new LNL.Implementation.TargetPathfile(
 				Path.Combine(WorkFolder, Filename2)
 			);
 			File.Delete(targetPathfile.Value);
@@ -63,16 +65,19 @@ namespace LehmaNautaLogic.Test
 			System.IO.File.Delete(targetPathfile.Value);
 			Assert.IsFalse(System.IO.File.Exists(targetPathfile.Value));
 
-			//	Do.
-			var resBefore = blobService.Get(id, targetPathfile);
+			//	#	Act.
+			var resBefore = blobService.Get(id, targetPath);
 			//	Assert.
-			Assert.IsTrue(System.IO.File.Exists(targetPathfile.Value));
-			Assert.IsTrue(resBefore);
+			Assert.IsTrue(System.IO.File.Exists(
+				Path.Combine( targetPath.Value, resBefore.Filename)
+			));
+			Assert.AreEqual(owner, resBefore.Owner);
+			Assert.AreEqual( id, resBefore.Id);
 
-			//Do.
-			var resAfter = blobService.Get(id, targetPathfile);
+			//	#	Assert.
+			var resAfter = blobService.Get(id, targetPath);
 			//	Assert.
-			Assert.IsFalse(resAfter);
+			Assert.IsNull( resAfter);
 		}
 	}
 }

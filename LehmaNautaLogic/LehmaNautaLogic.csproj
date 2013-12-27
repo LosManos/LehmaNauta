@@ -43,13 +43,17 @@
   <ItemGroup>
     <Compile Include="DTO\FileInformationExtension.cs" />
     <Compile Include="DTO\FileInformation.cs" />
+    <Compile Include="Implementation\Path.cs" />
     <Compile Include="Implementation\Pathfile.cs" />
+    <Compile Include="Implementation\TargetPath.cs" />
     <Compile Include="Implementation\TargetPathfile.cs" />
     <Compile Include="Interface\IBlobService.cs" />
     <Compile Include="Interface\IFileInformationService.cs" />
+    <Compile Include="Interface\IPath.cs" />
     <Compile Include="Interface\IPathFile.cs" />
     <Compile Include="Interface\IPhysicalfileService.cs" />
     <Compile Include="Interface\ISourcePathfile.cs" />
+    <Compile Include="Interface\ITargetPath.cs" />
     <Compile Include="Interface\ITargetPathffle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementation\SourcePathfile.cs" />

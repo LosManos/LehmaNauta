@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using LehmaNautaLogic;
 using LehmaNautaLogic.Interface;
+using LehmaNautaLogic.Implementation;
+using LehmaNauta.Common;
 
 [assembly: InternalsVisibleTo("LehmaNautaLogic.Test")]
 namespace LehmaNautaLogicImplementation
@@ -36,8 +38,8 @@ namespace LehmaNautaLogicImplementation
 		/// <param name="sourcePathfile"></param>
 		public void Create( Guid id, ISourcePathfile sourcePathfile)
 		{
-			var destPath = Path.Combine(RepositoryPath.Value, id.ToString());
-			var destPathfile = Path.Combine( destPath, Filename);
+			var destPath = System.IO.Path.Combine(RepositoryPath.Value, id.ToString());
+			var destPathfile = System.IO.Path.Combine(destPath, Filename);
 			Directory.CreateDirectory(destPath);
 			File.Copy(sourcePathfile.Value, destPathfile);
 		}
@@ -47,11 +49,15 @@ namespace LehmaNautaLogicImplementation
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public string Get(Guid id)
+		public string GetAndDelete(Guid id)
 		{
-			var pathfile = Path.Combine(RepositoryPath.Value, id.ToString(), Filename);
+			//TODO:	Returning a string being the full file is not good.
+			//	Have it return a stream or copy to a folder instead.
+			var path = System.IO.Path.Combine(RepositoryPath.Value, id.ToString());
+			var pathfile = System.IO.Path.Combine(path, Filename);
 			var ret = File.ReadAllText( pathfile );
-			File.Delete(pathfile);
+
+			DeleteFile(new Pathfile(System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename)));
 			return ret;
 		}
 
@@ -63,7 +69,23 @@ namespace LehmaNautaLogicImplementation
 		/// <returns></returns>
 		public bool Exists(Guid id)
 		{
-			return File.Exists(Path.Combine(RepositoryPath.Value, id.ToString(), Filename));
+			return File.Exists(System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename));
+		}
+
+		/// <summary>This method deletes the file and its path
+		/// all the way to the repository root.
+		/// The file is stored a typically LN.Repository/xxx/X
+		/// where xxx is the GUID identifying the file
+		/// and X is just X as we call them X and nothing else.
+		/// Security through obscurity.
+		/// </summary>
+		/// <param name="pathfile"></param>
+		private void DeleteFile(IPathfile pathfile)
+		{
+			Assert.Argument.Called("pathfile").IsNotNull(pathfile);
+
+			File.Delete(pathfile.Value);	//	Deletes the file.
+			Directory.Delete(pathfile.GetDirectoryName().Value);
 		}
 	}
 

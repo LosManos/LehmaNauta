@@ -16,7 +16,7 @@ namespace LehmaNauta.Common
 				_parameterName = parameterName;
 			}
 
-			public void IsNotNull( string value )
+			public void IsNotNull( object value )
 			{
 				if (null == value) { throw new ArgumentNullException(_parameterName); }
 			}

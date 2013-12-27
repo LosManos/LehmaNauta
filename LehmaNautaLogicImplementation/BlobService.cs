@@ -2,6 +2,8 @@
 using LNLInt = LehmaNautaLogic.Interface;
 using LehmaNautaLogic.DTO;
 using System.IO;
+using LehmaNauta.Common;
+using LehmaNautaLogic.Implementation;
 
 namespace LehmaNautaLogicImplementation
 {
@@ -27,7 +29,7 @@ namespace LehmaNautaLogicImplementation
 		{
 			LNLInt.IFileInformationService fis = new FileInformationService();
 			var id = fis.Create(new FileInformation().Set(
-				Path.GetFileName( sourcePathfile.Value), 
+				System.IO.Path.GetFileName( sourcePathfile.Value), 
 				owner));
 
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);
@@ -38,16 +40,50 @@ namespace LehmaNautaLogicImplementation
 			return id;
 		}
 
-		public bool Get(Guid id, LNLInt.ITargetPathfile targetPathfile)
+		/// <summary>This method retrieves the Fileinformation for the file/blob for the id
+		/// and copies the very file to the TargetPath.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="targetPath"></param>
+		/// <returns></returns>
+		public LehmaNautaLogic.DTO.FileInformation Get(Guid id, LNLInt.ITargetPath targetPath)
 		{
+			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
+
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);
 			if (pfs.Exists(id))
 			{
-				var filecontents = pfs.Get(id);
-				System.IO.File.WriteAllText(targetPathfile.Value, filecontents);
-				return true;
+				LNLInt.IFileInformationService fis = new FileInformationService();
+				var fileinformation = fis.Load(id);
+
+				var filecontents = pfs.GetAndDelete(id);
+
+				CreateDownloadDirectoryAndCopyFile( fileinformation, filecontents, targetPath );
+
+				fis.Delete(fileinformation.Id);
+
+				return fileinformation;
 			}
-			return false;
+			return null;
+		}
+
+		private void CreateDownloadDirectoryAndCopyFile(
+			FileInformation fileinformation, 
+			string filecontents, 
+			LNLInt.ITargetPath targetPath )
+		{
+			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
+
+			//	Create path and filename to let the user download.
+			var targetPathfile = new TargetPathfile( 
+				System.IO.Path.Combine( targetPath.Value, fileinformation.Id.ToString(), fileinformation.Filename)
+			).ToITargetPathfile();
+
+			//	Now create directory and the very file.
+			Directory.CreateDirectory(targetPathfile.GetDirectoryName().Value);
+			System.IO.File.WriteAllText(
+				System.IO.Path.Combine(targetPath.Value, fileinformation.Filename), 
+				filecontents);
 		}
 
 	}

@@ -1,29 +1,21 @@
 ﻿using LehmaNautaLogic.Interface;
-
 namespace LehmaNautaLogic.Implementation
 {
-	public class Pathfile : IPathfile
+	public class Path : IPath
 	{
 		public string Value { get; set; }
 		
-		public Pathfile() { }
-		public Pathfile(string pathfile)
+		public Path() { }
+		public Path(string pathfile)
 		{
 			Set(pathfile);
 		}
 
-		public IPath GetDirectoryName()
+		public IPath ToIPath()
 		{
-			return new Path(
-				System.IO.Path.GetDirectoryName(Value)
-			);
+			return (IPath)this;
 		}
 
-		public IPathfile ToIPathfile()
-		{
-			return (IPathfile)this;
-		}
-	
 		public override string ToString()
 		{
 			return this.Value;
