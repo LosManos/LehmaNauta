@@ -18,23 +18,26 @@ namespace AnonymousWeb.Models
 		/// </summary>
 		public class FileInformation
 		{
+			public Guid Id { get; set; }
 			public string Filename { get; set; }
 			public int Length { get; set; }
 			
 			public FileInformation() { }
 			
 			public FileInformation(
+				Guid id, 
 				string filename, 
 				int length)
 			{
-				Set(filename, length);
+				Set(id, filename, length);
 			}
 
-			private void Set(string filename, int length)
+			private void Set(Guid id, string filename, int length)
 			{
 				Assert.Argument.Called("filename")
 					.IsNotNullAndDoesOnlyContainFilename( filename );
 
+				this.Id = id;
 				this.Filename = filename;
 				this.Length = length;
 			}

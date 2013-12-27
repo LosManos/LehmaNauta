@@ -67,17 +67,24 @@ namespace AnonymousWeb.Tests.Controllers
 				
 			controller.ControllerContext = mCC.Object;
 
-			// Act
+			// #	Act.
 			ViewResult result = controller.Index() as ViewResult;
 
-			// Assert
+			// #	Assert.
 			Assert.IsNotNull(result);
 			Assert.IsInstanceOfType(result.Model, typeof(Models.HomeIndexViewmodel));
 			var model = (Models.HomeIndexViewmodel)result.Model;
 			Assert.AreEqual(1, model.Files.Count);
+			Assert.AreNotEqual(Guid.Empty, model.Files.Single().Id);
 			Assert.AreEqual(Filename, model.Files.Single().Filename);
 			Assert.AreEqual(42, model.Files.Single().Length);
 			mFile.Verify( f => f.SaveAs(It.IsAny<string>()), Times.Once());
+		}
+
+		[TestMethod]
+		public void Home_Index_WithArgument()
+		{
+			Assert.Fail("TBA");
 		}
 
 		[TestMethod]

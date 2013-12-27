@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -100,10 +101,12 @@ namespace AnonymousWeb.Controllers
 
 			foreach (var file in files)
 			{
-				blobService.Create(owner.ToString(),
+				var id = blobService.Create(owner.ToString(),
 					new LehmaNautaLogic.Implementation.SourcePathfile(
 						Path.Combine(_httpContextServer.MapPath(UploadPath), file.Filename))
 				);
+				Debug.Assert(Guid.Empty != id);
+				file.Id = id;
 			}
 		}
 
@@ -138,6 +141,7 @@ namespace AnonymousWeb.Controllers
 			{
 				ret.Files.Add(
 					new Models.HomeIndexViewmodel.FileInformation(
+						fileinformation.Id, 
 						fileinformation.Filename,
 						0	//TODO:	Implement to get real size of file.
 					)
@@ -184,6 +188,7 @@ namespace AnonymousWeb.Controllers
 					//	Create something to return.
 					ret.Files.Add(
 						new Models.HomeIndexViewmodel.FileInformation(
+							Guid.Empty,	//	We still don't have an Id for the file.
 							Path.GetFileName( file.FileName ), 
 							file.ContentLength));
 				}
