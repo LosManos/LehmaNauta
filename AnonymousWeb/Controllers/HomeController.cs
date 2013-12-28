@@ -80,17 +80,6 @@ namespace AnonymousWeb.Controllers
 
 		public FileStreamResult Download(string id)
 		{
-			/////	This function retrieves a file from the respository and database.
-			//Func<Guid, Models.HomeIndexViewmodel> RetrieveFiles = delegate(Guid uid)
-			//{
-			//	var downloadPathForFile =
-			//		new LehmaNautaLogic.Implementation.TargetPath(
-			//			_httpContextServer.MapPath(Path.Combine(DownloadPath, uid.ToString())
-			//		));
-			//	return GetFileInformationFromRepository(uid, downloadPathForFile);
-			//};
-			//var model = RetrieveFiles(Guid.Parse(id));
-
 			var uid = Guid.Parse(id);
 			var downloadPathForFile =
 				new LehmaNautaLogic.Implementation.TargetPath(
@@ -98,6 +87,7 @@ namespace AnonymousWeb.Controllers
 				));
 			var model = GetFileInformationFromRepository(uid, downloadPathForFile);
 
+			//	Code below is inspired with love from:
 			//	http://stackoverflow.com/questions/1375486/how-to-create-file-and-return-it-via-fileresult-in-asp-net-mvc
 			var fileinfo = new FileInfo(
 				Path.Combine(downloadPathForFile.Value, model.Files.Single().Filename)

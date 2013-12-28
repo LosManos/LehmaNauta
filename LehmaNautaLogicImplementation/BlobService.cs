@@ -50,25 +50,32 @@ namespace LehmaNautaLogicImplementation
 		{
 			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
 
+			LNLInt.IFileInformationService fis = new FileInformationService();
+			var fileinformation = fis.Load(id);
+
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);
 			if (pfs.Exists(id))
 			{
-				LNLInt.IFileInformationService fis = new FileInformationService();
-				var fileinformation = fis.Load(id);
-
 				using (var filestream = pfs.Get(id))
 				{
 
 					CreateDownloadDirectoryAndCopyFile(fileinformation, filestream, targetPath);
 				}
-				pfs.Delete(id);
-				fis.Delete(fileinformation.Id);
-
+				pfs.Delete(id);	//	Delete the file from the repository.
+				fis.Delete(fileinformation.Id);	//	Delete the fileinformation from the database.
 				return fileinformation;
+
 			}
+			fis.Delete(fileinformation.Id);	//	Delete the fileinformation from the database.
 			return null;
 		}
 
+		/// <summary>This method creates the file to download from by copying it
+		/// from the repository.
+		/// </summary>
+		/// <param name="fileinformation"></param>
+		/// <param name="filestream"></param>
+		/// <param name="targetPath"></param>
 		private void CreateDownloadDirectoryAndCopyFile(
 			FileInformation fileinformation, 
 			FileStream filestream, 
@@ -82,9 +89,6 @@ namespace LehmaNautaLogicImplementation
 			).ToITargetPathfile();
 
 			//	Now create directory and the very file.
-			//System.IO.File.WriteAllBytes(
-			//	System.IO.Path.Combine(targetPath.Value, fileinformation.Filename), 
-			//	filecontents);
 			Directory.CreateDirectory(targetPath.Value);
 			using (var fs = new FileStream(targetPathfile.Value, FileMode.CreateNew))
 			{
