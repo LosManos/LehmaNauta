@@ -42,7 +42,9 @@ namespace AnonymousWeb.Controllers
 
 		#endregion	//	Constructors.
 
-		public ActionResult Index( string id = null)
+		#region Actions.
+
+		public ActionResult Index()
 		{
 			///	This function stores the file(s) in the request in the respository and database.
 			Func<Models.HomeIndexViewmodel> StoreFiles = delegate()
@@ -57,20 +59,7 @@ namespace AnonymousWeb.Controllers
 				return model;
 			};
 
-			///	This function retrieves a file from the respository and database.
-			Func<Guid, Models.HomeIndexViewmodel> RetrieveFiles = delegate(Guid uid)
-			{
-				var downloadPathForFile =
-					new LehmaNautaLogic.Implementation.TargetPath(
-						_httpContextServer.MapPath( Path.Combine( DownloadPath, uid.ToString() )
-					));
-				var model = GetFileInformationFromRepository(uid, downloadPathForFile);
-				return model;
-			};
-
-			var retModel = (null == id) ?
-				StoreFiles() :
-				RetrieveFiles(Guid.Parse(id) );
+			var retModel = StoreFiles();
 
 			return View(retModel);
 		}
@@ -88,6 +77,44 @@ namespace AnonymousWeb.Controllers
 
 			return View();
 		}
+
+		public FileStreamResult Download(string id)
+		{
+			/////	This function retrieves a file from the respository and database.
+			//Func<Guid, Models.HomeIndexViewmodel> RetrieveFiles = delegate(Guid uid)
+			//{
+			//	var downloadPathForFile =
+			//		new LehmaNautaLogic.Implementation.TargetPath(
+			//			_httpContextServer.MapPath(Path.Combine(DownloadPath, uid.ToString())
+			//		));
+			//	return GetFileInformationFromRepository(uid, downloadPathForFile);
+			//};
+			//var model = RetrieveFiles(Guid.Parse(id));
+
+			var uid = Guid.Parse(id);
+			var downloadPathForFile =
+				new LehmaNautaLogic.Implementation.TargetPath(
+					_httpContextServer.MapPath(Path.Combine(DownloadPath, uid.ToString())
+				));
+			var model = GetFileInformationFromRepository(uid, downloadPathForFile);
+
+			//	http://stackoverflow.com/questions/1375486/how-to-create-file-and-return-it-via-fileresult-in-asp-net-mvc
+			var fileinfo = new FileInfo(
+				Path.Combine(downloadPathForFile.Value, model.Files.Single().Filename)
+			);
+			if (fileinfo.Exists && fileinfo.Length >= 1 )
+			{
+				return File(fileinfo.OpenRead(), MimeMapping.GetMimeMapping( model.Files.Single().Filename), model.Files.Single().Filename);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		#endregion	//	Actions.
+
+		#region Private methods.
 
 		/// <summary>This method creates file information in the database.
 		/// 
@@ -196,5 +223,7 @@ namespace AnonymousWeb.Controllers
 
 			return ret;
 		}
+
+		#endregion	//	Private methods.
 	}
 }

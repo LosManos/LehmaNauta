@@ -27,7 +27,7 @@
                 @foreach (var file in Model.Files)
                 {
                     <li>
-                        @Html.ActionLink(file.Filename, "Index/" + file.Id);
+                        @Html.ActionLink(file.Filename, "Download/" + file.Id);
                         @file.Filename;
                         @("[")
                         @file.Length;

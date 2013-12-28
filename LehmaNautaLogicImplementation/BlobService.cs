@@ -56,34 +56,40 @@ namespace LehmaNautaLogicImplementation
 				LNLInt.IFileInformationService fis = new FileInformationService();
 				var fileinformation = fis.Load(id);
 
-				var filecontents = pfs.GetAndDelete(id);
+				using (var filestream = pfs.Get(id))
+				{
 
-				CreateDownloadDirectoryAndCopyFile( fileinformation, filecontents, targetPath );
+					CreateDownloadDirectoryAndCopyFile(fileinformation, filestream, targetPath);
 
-				fis.Delete(fileinformation.Id);
+					fis.Delete(fileinformation.Id);
 
-				return fileinformation;
+					return fileinformation;
+				}
 			}
 			return null;
 		}
 
 		private void CreateDownloadDirectoryAndCopyFile(
 			FileInformation fileinformation, 
-			string filecontents, 
+			FileStream filestream, 
 			LNLInt.ITargetPath targetPath )
 		{
 			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
 
-			//	Create path and filename to let the user download.
+			//	Decide path and filename to let the user download.
 			var targetPathfile = new TargetPathfile( 
-				System.IO.Path.Combine( targetPath.Value, fileinformation.Id.ToString(), fileinformation.Filename)
+				System.IO.Path.Combine( targetPath.Value, fileinformation.Filename)
 			).ToITargetPathfile();
 
 			//	Now create directory and the very file.
-			Directory.CreateDirectory(targetPathfile.GetDirectoryName().Value);
-			System.IO.File.WriteAllText(
-				System.IO.Path.Combine(targetPath.Value, fileinformation.Filename), 
-				filecontents);
+			//System.IO.File.WriteAllBytes(
+			//	System.IO.Path.Combine(targetPath.Value, fileinformation.Filename), 
+			//	filecontents);
+			Directory.CreateDirectory(targetPath.Value);
+			using (var fs = new FileStream(targetPathfile.Value, FileMode.CreateNew))
+			{
+				filestream.CopyTo(fs);
+			}
 		}
 
 	}

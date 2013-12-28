@@ -49,16 +49,17 @@ namespace LehmaNautaLogicImplementation
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public string GetAndDelete(Guid id)
+		public FileStream Get(Guid id)
 		{
 			//TODO:	Returning a string being the full file is not good.
 			//	Have it return a stream or copy to a folder instead.
 			var path = System.IO.Path.Combine(RepositoryPath.Value, id.ToString());
 			var pathfile = System.IO.Path.Combine(path, Filename);
-			var ret = File.ReadAllText( pathfile );
 
-			DeleteFile(new Pathfile(System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename)));
-			return ret;
+			var stream = new FileStream(pathfile, FileMode.Open);
+
+			//DeleteFile(new Pathfile(System.IO.Path.Combine(RepositoryPath.Va.ToString(), Filename)));
+			return stream;
 		}
 
 		/// <summary>This method returns true if a File exists.
