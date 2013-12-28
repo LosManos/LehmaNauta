@@ -28,10 +28,16 @@ namespace LehmaNautaLogic.Test
 	
 			var exists = testee.Exists(id);
 			Assert.IsTrue(exists);
-			
-			var res = testee.Get(id);
-			Assert.IsNotNull(res);	//TODO:What is Get really?
-			
+
+			using (var res = testee.Get(id))
+			{
+				Assert.IsNotNull(res);
+			}
+
+			exists = testee.Exists(id);
+			Assert.IsTrue(exists);
+
+			testee.Delete(id);
 			exists = testee.Exists(id);
 			Assert.IsFalse(exists);
 		}

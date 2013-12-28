@@ -66,7 +66,10 @@ namespace LehmaNautaLogicImplementation
 				return fileinformation;
 
 			}
-			fis.Delete(fileinformation.Id);	//	Delete the fileinformation from the database.
+			if (null != fileinformation)
+			{
+				fis.Delete(fileinformation.Id);	//	Delete the fileinformation from the database.
+			}
 			return null;
 		}
 

@@ -82,12 +82,6 @@ namespace AnonymousWeb.Tests.Controllers
 		}
 
 		[TestMethod]
-		public void Home_Index_WithArgument()
-		{
-			Assert.Fail("TBA");
-		}
-
-		[TestMethod]
 		public void About()
 		{
 			// Arrange
