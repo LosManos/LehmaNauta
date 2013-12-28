@@ -60,11 +60,11 @@ namespace LehmaNautaLogicImplementation
 				{
 
 					CreateDownloadDirectoryAndCopyFile(fileinformation, filestream, targetPath);
-
-					fis.Delete(fileinformation.Id);
-
-					return fileinformation;
 				}
+				pfs.Delete(id);
+				fis.Delete(fileinformation.Id);
+
+				return fileinformation;
 			}
 			return null;
 		}

@@ -5,9 +5,11 @@ namespace LehmaNautaLogic.Interface
 {
 	public interface IPhysicalfileService
 	{
+		IPathfile RepositoryPath { get; set; }
+
 		void Create(Guid id, ISourcePathfile sourcePathfile);
 		FileStream Get(Guid id);
-		IPathfile RepositoryPath { get; set; }
+		void Delete(Guid id);
 		bool Exists(Guid id);
 		}
 }

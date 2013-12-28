@@ -58,7 +58,6 @@ namespace LehmaNautaLogicImplementation
 
 			var stream = new FileStream(pathfile, FileMode.Open);
 
-			//DeleteFile(new Pathfile(System.IO.Path.Combine(RepositoryPath.Va.ToString(), Filename)));
 			return stream;
 		}
 
@@ -73,21 +72,19 @@ namespace LehmaNautaLogicImplementation
 			return File.Exists(System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename));
 		}
 
-		/// <summary>This method deletes the file and its path
-		/// all the way to the repository root.
-		/// The file is stored a typically LN.Repository/xxx/X
-		/// where xxx is the GUID identifying the file
-		/// and X is just X as we call them X and nothing else.
-		/// Security through obscurity.
+		/// <summary>This method deletes the file from the repository.
 		/// </summary>
-		/// <param name="pathfile"></param>
-		private void DeleteFile(IPathfile pathfile)
+		/// <param name="id"></param>
+		public void Delete(Guid id)
 		{
-			Assert.Argument.Called("pathfile").IsNotNull(pathfile);
-
-			File.Delete(pathfile.Value);	//	Deletes the file.
-			Directory.Delete(pathfile.GetDirectoryName().Value);
+			File.Delete(
+				System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename)
+			);
+			Directory.Delete(
+				System.IO.Path.Combine(RepositoryPath.Value, id.ToString())
+			);
 		}
+
 	}
 
 }
