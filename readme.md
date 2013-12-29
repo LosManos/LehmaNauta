@@ -12,3 +12,5 @@ Another, almost equally simple solution, is to upload the file to Google docs, S
 2) the file is downloaded after 1 download or a certain time, whatever comes first.
 
 HTH
+
+Oh yeah - almost forgot. GPLv3 licence. http://www.gnu.org/copyleft/gpl.html
