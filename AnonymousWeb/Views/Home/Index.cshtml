@@ -22,16 +22,18 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <div>Uploaded files:</div>
+            <div>Uploaded file:</div>
             <ul>
                 @foreach (var file in Model.Files)
                 {
                     <li>
-                        @Html.ActionLink(file.Filename, "Download/" + file.Id);
-                        @file.Filename;
-                        @("[")
-                        @file.Length;
-                        @("]")   
+                        <div>
+                            @Html.ActionLink(file.Filename, "Download/" + file.Id)
+                            Size: @file.Length bytes.
+                        </div>
+                        <div>
+                            Copy link here: https://localhost/LehmaNauta.AnonymousWeb/Home/Download/@file.Id
+                        </div>
                     </li>
                 }
             </ul>
