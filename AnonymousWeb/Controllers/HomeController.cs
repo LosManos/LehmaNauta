@@ -13,10 +13,6 @@ namespace AnonymousWeb.Controllers
 {
 	public class HomeController : Controller
 	{
-		private const string RepositoryPathKey = "RepositoryPath";
-		private const string UploadPath = "~/Uploads";
-		private const string DownloadPath = "~/Downloads";
-
 		public HttpServerUtilityBase _httpContextServer;
 
 		#region Constructors.
@@ -83,7 +79,9 @@ namespace AnonymousWeb.Controllers
 			var uid = Guid.Parse(id);
 			var downloadPathForFile =
 				new LehmaNautaLogic.Implementation.TargetPath(
-					_httpContextServer.MapPath(Path.Combine(DownloadPath, uid.ToString())
+					//_httpContextServer.MapPath(
+					Path.Combine(Common.Settings.DownloadPath, uid.ToString()
+					//)
 				));
 			var model = GetFileInformationFromRepository(uid, downloadPathForFile);
 
@@ -113,14 +111,17 @@ namespace AnonymousWeb.Controllers
 		/// <param name="files"></param>
 		private void CreateFileInformationInRepository(Guid owner, ICollection<Models.HomeIndexViewmodel.FileInformation> files)
 		{
-			var ln = new LNLImp.Factory( ConfigurationManager.AppSettings[RepositoryPathKey]);
+			var ln = new LNLImp.Factory( Common.Settings.RepositoryPath);
 			var blobService = ln.CreateBlobService();
 
 			foreach (var file in files)
 			{
 				var id = blobService.Create(owner.ToString(),
 					new LehmaNautaLogic.Implementation.SourcePathfile(
-						Path.Combine(_httpContextServer.MapPath(UploadPath), file.Filename))
+						Path.Combine(
+						//_httpContextServer.MapPath(Common.Settings.UploadPath)
+						Common.Settings.UploadPath, 
+						file.Filename))
 				);
 				Debug.Assert(Guid.Empty != id);
 				file.Id = id;
@@ -140,7 +141,7 @@ namespace AnonymousWeb.Controllers
 			Guid fileinformationId, 
 			LNLInt.ITargetPath downloadPath )
 		{
-			var ln = new LNLImp.Factory(ConfigurationManager.AppSettings[RepositoryPathKey]);
+			var ln = new LNLImp.Factory(Common.Settings.RepositoryPath);
 			var blobService = ln.CreateBlobService();
 
 			var ret = Models.HomeIndexViewmodel.Create();
@@ -196,7 +197,8 @@ namespace AnonymousWeb.Controllers
 					//TODO:	Move "Upload" folder to be a setting either in web config
 					//	or as a public property, at least readable. If it remains here it is too "secret".
 					var filePath = Path.Combine(
-						httpContextServer.MapPath(UploadPath),
+						//httpContextServer.MapPath(Common.Settings.UploadPath),
+						Common.Settings.UploadPath, 
 						Path.GetFileName(file.FileName));
 
 					//	Save the file on disc.

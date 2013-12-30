@@ -27,6 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNauta.Common", "LehmaNauta.Common\LehmaNauta.Common.csproj", "{998F93E8-F035-4776-B71C-C4D94E68A9EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Uploads", "Uploads", "{B9EE8C40-82AE-4F75-A93D-2FF823E58E17}"
+	ProjectSection(SolutionItems) = preProject
+		Uploads\readme.md = Uploads\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Downloads", "Downloads", "{769C48C0-C67E-4438-9EE0-0D3A92CE19FD}"
+	ProjectSection(SolutionItems) = preProject
+		Downloads\readme.md = Downloads\readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,5 +77,7 @@ Global
 		{46CAD4D9-2170-42F1-A56B-A53537AE4CEB} = {ACE762F5-CE63-4E1C-B76F-F9FA15781718}
 		{CC3369D9-4EFE-4DA3-8E53-0A9C971511AA} = {ACE762F5-CE63-4E1C-B76F-F9FA15781718}
 		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B} = {59ADC231-4FA0-40B2-8B41-088CCBC396E7}
+		{769C48C0-C67E-4438-9EE0-0D3A92CE19FD} = {1D855D64-B890-40FC-8DC5-28A1F1AE1C84}
+		{B9EE8C40-82AE-4F75-A93D-2FF823E58E17} = {1D855D64-B890-40FC-8DC5-28A1F1AE1C84}
 	EndGlobalSection
 EndGlobal
