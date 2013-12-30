@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D855D64-B890-40FC-8DC5-28A1F1AE1C84}"
 	ProjectSection(SolutionItems) = preProject
 		LN.Repository\readme.md = LN.Repository\readme.md
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNauta.Common", "LehmaNauta.Common\LehmaNauta.Common.csproj", "{998F93E8-F035-4776-B71C-C4D94E68A9EA}"
