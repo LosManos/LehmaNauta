@@ -38,15 +38,15 @@ namespace LehmaNautaLogic.Test
 		{
 			LNLInt.IFileInformationService testee = new LNLImp.FileInformationService();
 			var id = Guid.NewGuid();
-			var preCount = testee.IT_GetAll().Count;
+			var preCount = testee.GetAll().Count;
 			var newFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			newFileinfo.Id = Guid.NewGuid();
 			testee.Create(newFileinfo);
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
-			var postCount = testee.IT_GetAll().Count;
+			var postCount = testee.GetAll().Count;
 			Assert.AreEqual(preCount + 1, postCount);
 			testee.Delete(newFileinfo.Id);
-			var postPostCount = testee.IT_GetAll().Count;
+			var postPostCount = testee.GetAll().Count;
 			Assert.AreEqual(preCount, postPostCount);
 		}
 
@@ -56,18 +56,18 @@ namespace LehmaNautaLogic.Test
 			//	Given.
 			LNLInt.IFileInformationService testee = new LNLImp.FileInformationService();
 			testee.DeleteOld();
-			var preCount = testee.IT_GetAll().Count;
+			var preCount = testee.GetAll().Count;
 			var pastFileinfo = new FileInformation().Set("IT.a", "IT.b");
 			pastFileinfo.Created = DateTime.Now.AddDays(-1).AddHours(-1);
 			testee.Create(pastFileinfo);
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
-			var postCount = testee.IT_GetAll().Count;
+			var postCount = testee.GetAll().Count;
 			Assert.IsTrue(preCount < postCount);
 			testee.DeleteOld();
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
 
 			//	Do.
-			var postPostCount = testee.IT_GetAll().Count;
+			var postPostCount = testee.GetAll().Count;
 	
 			//	Assert.
 			Assert.IsTrue(preCount <= postPostCount);
@@ -77,10 +77,10 @@ namespace LehmaNautaLogic.Test
 		public void GetAll()
 		{
 			LNLInt.IFileInformationService testee = new LNLImp.FileInformationService();
-			var allPreTestDocs = testee.IT_GetAll();
+			var allPreTestDocs = testee.GetAll();
 			var fileId = testee.Create(new DTO.FileInformation().Set("IT.a", "IT.b"));
 			Thread.Sleep(500);	//	HACK: Shouldn't have to wait.
-			var allPostTestDocs = testee.IT_GetAll();
+			var allPostTestDocs = testee.GetAll();
 			Assert.IsTrue(allPreTestDocs.Count + 1 == allPostTestDocs.Count);
 		}
 	}

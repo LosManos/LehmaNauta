@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LehmaNautaLogic.Interface;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -76,15 +77,25 @@ namespace AnonymousWeb.Controllers
 
 		public FileStreamResult Download(string id)
 		{
+			//	#	Setup.
 			var uid = Guid.Parse(id);
-			var downloadPathForFile =
+			var downloadPathForFile = 
 				new LehmaNautaLogic.Implementation.TargetPath(
-					//_httpContextServer.MapPath(
 					Path.Combine(Common.Settings.DownloadPath, uid.ToString()
-					//)
 				));
-			var model = GetFileInformationFromRepository(uid, downloadPathForFile);
+			var ln = new LNLImp.Factory(Common.Settings.RepositoryPath);
+			var blobService = ln.CreateBlobService();
+			//	##	Clean the download directory for old stuff.
+			blobService.DeleteOldFiles(
+				new LehmaNautaLogic.Implementation.Path(
+					Common.Settings.DownloadPath
+				)
+			);
 
+			//	#	Get data.
+			var model = GetFileInformationFromRepository(blobService, uid, downloadPathForFile);
+
+			//	#	Return the file as a stream. If it exists that is.
 			//	Code below is inspired with love from:
 			//	http://stackoverflow.com/questions/1375486/how-to-create-file-and-return-it-via-fileresult-in-asp-net-mvc
 			var fileinfo = new FileInfo(
@@ -134,16 +145,15 @@ namespace AnonymousWeb.Controllers
 		/// where xxx is the UID for the blob
 		/// and yyy is the name of the file.
 		/// </summary>
+		/// <param name="blobService"></param>
 		/// <param name="fileinformationId"></param>
 		/// <param name="downloadPath"></param>
 		/// <returns></returns>
 		private static Models.HomeIndexViewmodel GetFileInformationFromRepository(
+			LNLInt.IBlobService blobService, 
 			Guid fileinformationId, 
 			LNLInt.ITargetPath downloadPath )
 		{
-			var ln = new LNLImp.Factory(Common.Settings.RepositoryPath);
-			var blobService = ln.CreateBlobService();
-
 			var ret = Models.HomeIndexViewmodel.Create();
 
 			var fileinformation= blobService.Get(

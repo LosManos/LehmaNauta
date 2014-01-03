@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LehmaNautaLogic.Interface
 {
@@ -8,7 +9,7 @@ namespace LehmaNautaLogic.Interface
 		void Delete(Guid id);
 		void DeleteOld();
 		void EnsureDatabaseExists();
-		System.Collections.Generic.IList<DTO.FileInformation> IT_GetAll();
+		IList<DTO.FileInformation> GetAll();
 		DTO.FileInformation Load(Guid id);
 	}
 }

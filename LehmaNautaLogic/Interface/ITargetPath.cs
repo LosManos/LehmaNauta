@@ -1,7 +1,6 @@
 ﻿namespace LehmaNautaLogic.Interface
 {
-	public interface ITargetPath
+	public interface ITargetPath :IPath
 	{
-		string Value { get; set; }
 	}
 }

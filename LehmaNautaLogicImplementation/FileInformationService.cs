@@ -65,10 +65,18 @@ namespace LehmaNautaLogicImplementation
 			}
 		}
 
-		//TODO: Remove. Let GetAll be limited to testing assembly.
-		public IList<FileInformation> IT_GetAll()
+		public IList<FileInformation> GetAll()
 		{
-			return GetAll();
+			using (var store = NewLehmaNautaStore())
+			{
+				store.Initialize();
+
+				using (var session = store.OpenSession())
+				{
+					var fileinfos = session.Query<FileInformation>();
+					return fileinfos.ToList();
+				}
+			}
 		}
 
 		public void EnsureDatabaseExists()
@@ -94,18 +102,9 @@ namespace LehmaNautaLogicImplementation
 			}
 		}
 
-		private IList<FileInformation> GetAll()
+		internal IFileInformationService ToIFileInformationService()
 		{
-			using (var store = NewLehmaNautaStore())
-			{
-				store.Initialize();
-
-				using (var session = store.OpenSession())
-				{
-					var fileinfos = session.Query<FileInformation>();
-					return fileinfos.ToList();
-				}
-			}
+			return (IFileInformationService)this;
 		}
 	}
 }

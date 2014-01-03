@@ -8,8 +8,8 @@ namespace LehmaNautaLogic.Interface
 		IPathfile RepositoryPath { get; set; }
 
 		void Create(Guid id, ISourcePathfile sourcePathfile);
-		FileStream Get(Guid id);
 		void Delete(Guid id);
 		bool Exists(Guid id);
-		}
+		FileStream Get(Guid id);
+	}
 }

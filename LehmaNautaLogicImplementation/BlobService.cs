@@ -1,7 +1,8 @@
 ﻿using System;
 using LNLInt = LehmaNautaLogic.Interface;
-using LehmaNautaLogic.DTO;
 using System.IO;
+using System.Linq;
+using LehmaNautaLogic.DTO;
 using LehmaNauta.Common;
 using LehmaNautaLogic.Implementation;
 
@@ -40,6 +41,59 @@ namespace LehmaNautaLogicImplementation
 			return id;
 		}
 
+		/// <summary>This method deletes old files from the Download folder.
+		/// This method is a bit strange; normally this service only handles
+		/// the database and the repository. But this method is used for manipulating
+		/// the download dir. Why?
+		///		Because we don't want anyone to be able to get all Ids - the use of
+		///		blobservice should be like a black hole.
+		/// </summary>
+		/// <param name="path"></param>
+		public void DeleteOldFiles(LNLInt.IPath path)
+		{
+			//TODO:	Unit test this method (BlobService.DeleteOldFiles).		
+
+			//	Get all files in the database. These are the only valid files.
+			//	Anything but these should be deleted.
+			var fis = new FileInformationService().ToIFileInformationService();
+			var allowedDirectoryNames = fis.GetAll().Select( fi => fi.Id.ToString());
+
+			//	Get all directories on disc.
+			var existingDirectories = Directory.EnumerateDirectories(path.Value);
+			var directoriesToDelete = existingDirectories
+				.Where(ed => false == allowedDirectoryNames.Contains(ed));
+
+			//	Use this code to delete files.
+			//var allowedFileNames = allowedFiles.Select( fi => fi.Filename);
+			////	Get all files that reside on disc.
+			//var existingFileNames = Directory.EnumerateFiles( path.Value );
+			////	Find all physical files that are not in the fileinformations.
+			//var filesToDelete = existingFileNames
+			//	.Where( efn => false == allowedFileNames.Contains( efn));
+			//filesToDelete.ToList().ForEach( ftd =>
+			//	{
+			//		//try{
+			//			File.Delete( System.IO.Path.Combine( path.Value, ftd));
+			//		//}catch( Exception exc){
+			//		//	Only catch file delete exceptions, like IO one(s).
+			//		//}
+			//	}
+			//Remove .gitignore and readme.md from files to be deleted
+			//	while devloping. How?
+
+
+			//	TODO:	Then remove them. Catch files-locked-fails.
+			directoriesToDelete.ToList().ForEach( d =>
+				{
+					try{
+						Directory.Delete(d, recursive: true);
+					}catch( IOException){
+						//TODO: Log.
+					}
+				}
+			);
+		}
+
 		/// <summary>This method retrieves the Fileinformation for the file/blob for the id
 		/// and copies the very file to the TargetPath.
 		/// </summary>
@@ -50,7 +104,7 @@ namespace LehmaNautaLogicImplementation
 		{
 			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
 
-			LNLInt.IFileInformationService fis = new FileInformationService();
+			var fis = new FileInformationService().ToIFileInformationService();
 			var fileinformation = fis.Load(id);
 
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);

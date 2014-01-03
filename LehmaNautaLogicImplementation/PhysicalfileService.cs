@@ -44,21 +44,17 @@ namespace LehmaNautaLogicImplementation
 			File.Copy(sourcePathfile.Value, destPathfile);
 		}
 
-		/// <summary>This method gets a File.
-		/// It also removes it at once.
+		/// <summary>This method deletes the file from the repository.
 		/// </summary>
 		/// <param name="id"></param>
-		/// <returns></returns>
-		public FileStream Get(Guid id)
+		public void Delete(Guid id)
 		{
-			//TODO:	Returning a string being the full file is not good.
-			//	Have it return a stream or copy to a folder instead.
-			var path = System.IO.Path.Combine(RepositoryPath.Value, id.ToString());
-			var pathfile = System.IO.Path.Combine(path, Filename);
-
-			var stream = new FileStream(pathfile, FileMode.Open);
-
-			return stream;
+			File.Delete(
+				System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename)
+			);
+			Directory.Delete(
+				System.IO.Path.Combine(RepositoryPath.Value, id.ToString())
+			);
 		}
 
 		/// <summary>This method returns true if a File exists.
@@ -72,17 +68,24 @@ namespace LehmaNautaLogicImplementation
 			return File.Exists(System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename));
 		}
 
-		/// <summary>This method deletes the file from the repository.
+		/// <summary>This method gets a File.
+		/// It also removes it at once.
 		/// </summary>
 		/// <param name="id"></param>
-		public void Delete(Guid id)
+		/// <returns></returns>
+		public FileStream Get(Guid id)
 		{
-			File.Delete(
-				System.IO.Path.Combine(RepositoryPath.Value, id.ToString(), Filename)
-			);
-			Directory.Delete(
-				System.IO.Path.Combine(RepositoryPath.Value, id.ToString())
-			);
+			var path = System.IO.Path.Combine(RepositoryPath.Value, id.ToString());
+			var pathfile = System.IO.Path.Combine(path, Filename);
+
+			var stream = new FileStream(pathfile, FileMode.Open);
+
+			return stream;
+		}
+
+		public IPhysicalfileService ToIPhysicalfileService()
+		{
+			return (IPhysicalfileService)this;
 		}
 
 	}
