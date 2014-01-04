@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.shared.cs" />
     <Compile Include="DTO\FileInformationExtension.cs" />
     <Compile Include="DTO\FileInformation.cs" />
     <Compile Include="Implementation\Path.cs" />

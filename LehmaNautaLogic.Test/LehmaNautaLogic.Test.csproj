@@ -60,6 +60,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\LehmaNautaLogic\Properties\AssemblyInfo.shared.cs">
+      <Link>Properties\AssemblyInfo.shared.cs</Link>
+    </Compile>
     <Compile Include="FileInfoServiceTest.cs" />
     <Compile Include="FileServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
