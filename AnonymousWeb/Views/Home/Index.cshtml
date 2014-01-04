@@ -3,41 +3,49 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>LehmaNauta</h1>
+<div >
+
+    <h3>1. Select file</h3>
     @using (Html.BeginForm("Index", "Home", FormMethod.Post,
         new { enctype = "multipart/form-data" }))
     {
-    <p class="lead">
-        File
-        <input type="file" id="FileUpload" name="FileUpload"/>
-    </p>
-    <p>
-        <input type="submit" class="btn btn-primary btn-large" value="Upload" />
-    </p>
+        <p class="lead">
+            <input type="file" id="FileUpload" name="FileUpload" />
+        </p>
+
+        <h3>2. Upload</h3>
+        <p>
+            <input type="submit" class="btn btn-primary btn-large" value="Upload" />
+        </p>
+    }
+
+    <h3>3. Get the link</h3>
+    @if (Model.Files.Count >= 1)
+    {
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div>Uploaded file:</div>
+                <ul>
+                    @foreach (var file in Model.Files)
+                    {
+                        <li>
+                            <div>
+                                If you click here you will download the file. But it will also be deleted from the server.<br/>
+                                @Html.ActionLink(file.Filename, "Download/" + file.Id)
+                                Size: @file.Length bytes.
+                            </div>
+                    </li>
+                    <li>
+                            <div>
+                                Copy link here: <b>https://localhost/LehmaNauta.AnonymousWeb/Home/Download/@file.Id</b><br/>
+                                and send to whoever should download the file.
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-2"></div>
+        </div>
     }
 </div>
-
-@if( Model.Files.Count >= 1 ){
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <div>Uploaded file:</div>
-            <ul>
-                @foreach (var file in Model.Files)
-                {
-                    <li>
-                        <div>
-                            @Html.ActionLink(file.Filename, "Download/" + file.Id)
-                            Size: @file.Length bytes.
-                        </div>
-                        <div>
-                            Copy link here: https://localhost/LehmaNauta.AnonymousWeb/Home/Download/@file.Id
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-        <div class="col-2"></div>
-    </div>
-}
