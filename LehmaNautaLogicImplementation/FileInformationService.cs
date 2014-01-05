@@ -12,19 +12,25 @@ namespace LehmaNautaLogicImplementation
 {
 	public class FileInformationService : IFileInformationService
 	{
-		private DocumentStore NewDocumentStore()
+		private DocumentStore GetDocumentStore()
 		{
+			//TODO:Make this settable through config file.
 			return new DocumentStore {Url = "http://localhost:8080/"};
 		}
 
-		private DocumentStore NewLehmaNautaStore()
+		private DocumentStore GetLehmaNautaStore()
 		{
-			return new DocumentStore {Url = "http://localhost:8080/", DefaultDatabase = "LehmaNautaFile"};
+			//TODO:Make this settable through config file.
+			return new DocumentStore { Url = "http://localhost:8080/", DefaultDatabase = "LehmaNautaFile" };
 		}
 
+		/// <summary>This method creates a new record in the database.
+		/// </summary>
+		/// <param name="fileInfo"></param>
+		/// <returns></returns>
 		public Guid Create(FileInformation fileInfo)
 		{
-			using (var store = NewLehmaNautaStore())
+			using (var store = GetLehmaNautaStore())
 			{
 				store.Initialize();
 
@@ -41,7 +47,7 @@ namespace LehmaNautaLogicImplementation
 
 		public void Delete(Guid id)
 		{
-			using (var store = NewLehmaNautaStore())
+			using (var store = GetLehmaNautaStore())
 			{
 				store.Initialize();
 				using (var session = store.OpenSession())
@@ -53,6 +59,8 @@ namespace LehmaNautaLogicImplementation
 			}
 		}
 
+		/// <summary>This method deletes all records older than a day.
+		/// </summary>
 		public void DeleteOld()
 		{
 			var now = DateTime.Now;
@@ -65,9 +73,15 @@ namespace LehmaNautaLogicImplementation
 			}
 		}
 
+		/// <summary>This method retrieves all FileInformation records.
+		/// It is prefered to have this method not exist as we don't want anyone
+		/// to be able to browse the contents of the database. But I guess it has to
+		/// exist. For now.
+		/// </summary>
+		/// <returns></returns>
 		public IList<FileInformation> GetAll()
 		{
-			using (var store = NewLehmaNautaStore())
+			using (var store = GetLehmaNautaStore())
 			{
 				store.Initialize();
 
@@ -81,14 +95,19 @@ namespace LehmaNautaLogicImplementation
 
 		public void EnsureDatabaseExists()
 		{
-			using (var store = NewDocumentStore())
+			using (var store = GetDocumentStore())
 			{
 				store.Initialize();
 				store.DatabaseCommands.EnsureDatabaseExists("LehmaNautaFile");
 			}
 		}
 
-		public FileInformation Load(Guid id)
+		/// <summary>This method gets a record from the database by its PK.
+		/// A side effect is that it deletes all records passed its termination datetime.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public FileInformation Get(Guid id)
 		{
 			using (var store = new DocumentStore { Url = "http://localhost:8080/", DefaultDatabase = "LehmaNautaFile" })
 			{
@@ -96,6 +115,8 @@ namespace LehmaNautaLogicImplementation
 
 				using (var session = store.OpenSession())
 				{
+					DeleteOld();
+
 					var ret = session.Load<FileInformation>(id);
 					return ret;
 				}

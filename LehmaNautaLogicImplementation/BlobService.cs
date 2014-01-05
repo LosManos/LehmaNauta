@@ -8,6 +8,14 @@ using LehmaNautaLogic.Implementation;
 
 namespace LehmaNautaLogicImplementation
 {
+	/// <summary>This class contains the methods needed to upload and download files/blobs.
+	/// By the time of writing it contains 3 public methods.
+	/// Create(...) for creating/uploading a new blob.
+	/// Get(...) for getting/downloading an existing blob.
+	/// and the stray DeleteOldFiles that should be called by every Get.
+	/// This latter method should be incorporated into Get as we develop further as only 2 (upload/download)
+	/// should be necessary.
+	/// </summary>
 	internal class BlobService : LNLInt.IBlobService
 	{
 		private readonly LNLInt.IPathfile _repositoryPathfile;
@@ -105,7 +113,7 @@ namespace LehmaNautaLogicImplementation
 			Assert.Argument.Called("targetPath").IsNotNull(targetPath);
 
 			var fis = new FileInformationService().ToIFileInformationService();
-			var fileinformation = fis.Load(id);
+			var fileinformation = fis.Get(id);
 
 			LNLInt.IPhysicalfileService pfs = new PhysicalfileService(_repositoryPathfile);
 			if (pfs.Exists(id))

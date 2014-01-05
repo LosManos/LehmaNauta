@@ -26,7 +26,7 @@ namespace LehmaNautaLogic.Test
 			var fiIeID = testee.Create(new DTO.FileInformation().Set("IT.myfilename", "IT.myowner"));
 			Assert.AreNotEqual(Guid.Empty, fiIeID);
 
-			var fileinfo = testee.Load(fiIeID);
+			var fileinfo = testee.Get(fiIeID);
 			Assert.AreEqual(fiIeID, fileinfo.Id);
 			Assert.AreEqual("IT.myfilename", fileinfo.Filename);
 			Assert.AreEqual( "IT.myowner", fileinfo.Owner);

@@ -10,6 +10,6 @@ namespace LehmaNautaLogic.Interface
 		void DeleteOld();
 		void EnsureDatabaseExists();
 		IList<DTO.FileInformation> GetAll();
-		DTO.FileInformation Load(Guid id);
+		DTO.FileInformation Get(Guid id);
 	}
 }
