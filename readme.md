@@ -1,5 +1,7 @@
 # Readme for LehmaNauta
 
+Version 0.1
+
 This is a simple solution for uploading a document to a server,  
 get a unique id back  
 and then use this unique id to retrieve said file  
