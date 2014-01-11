@@ -30,10 +30,8 @@ namespace AnonymousWeb.Controllers
 		/// <summary>This constructor is used for automatic testing.
 		/// </summary>
 		/// <param name="server"></param>
-		public HomeController(HttpServerUtilityBase server)
+		internal HomeController(HttpServerUtilityBase server)
 		{
-			//TODO:Make this method friend and make it reachable from testing code.
-			//	Why?
 			_httpContextServer = server;
 		}
 
@@ -204,10 +202,7 @@ namespace AnonymousWeb.Controllers
 				if (file.ContentLength > 0)
 				{
 					//	Create the full path to where we store the file.
-					//TODO:	Move "Upload" folder to be a setting either in web config
-					//	or as a public property, at least readable. If it remains here it is too "secret".
 					var filePath = Path.Combine(
-						//httpContextServer.MapPath(Common.Settings.UploadPath),
 						Common.Settings.UploadPath, 
 						Path.GetFileName(file.FileName));
 
