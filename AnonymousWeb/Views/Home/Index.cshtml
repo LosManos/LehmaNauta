@@ -72,7 +72,9 @@
 								</li>
 								<li>
 									<div>
-										Copy link here: <b>https://localhost/LehmaNauta.AnonymousWeb/Home/Download/@file.Id</b><br />
+										Copy link here: <b>
+											@( HttpContext.Current.Request.Url.AbsoluteUri + "Home/Download/" + file.Id )
+									</b><br />
 										and send to whoever should download the file.
 									</div>
 								</li>
