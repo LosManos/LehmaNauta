@@ -63,12 +63,17 @@
     <Compile Include="..\LehmaNautaLogic\Properties\AssemblyInfo.shared.cs">
       <Link>Properties\AssemblyInfo.shared.cs</Link>
     </Compile>
+    <Compile Include="LoggingTest.cs" />
     <Compile Include="FileInfoServiceTest.cs" />
     <Compile Include="FileServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BlobServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LehmaNauta.Common\LehmaNauta.Common.csproj">
+      <Project>{998f93e8-f035-4776-b71c-c4d94e68a9ea}</Project>
+      <Name>LehmaNauta.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LehmaNautaLogicImplementation\LehmaNautaLogicImplementation.csproj">
       <Project>{77efa3d7-f942-4b80-b0d2-e5668dbbb2fb}</Project>
       <Name>LehmaNautaLogicImplementation</Name>
