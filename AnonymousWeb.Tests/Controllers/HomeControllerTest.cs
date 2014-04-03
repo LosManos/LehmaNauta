@@ -16,7 +16,36 @@ namespace AnonymousWeb.Tests.Controllers
 	public class HomeControllerTest
 	{
 		[TestMethod]
-		public void Home_Index_WithNoArgument()
+		public void Home_Index_Given_Nothing_Should_Return_Empty_File_List()
+		{
+			//	#	Arrange.
+			//	##	Arrange mocking of HttpContextServer.
+			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
+
+			//	##	Create component under test.
+			HomeController cut = new HomeController(
+				mHttpContextServer.Object
+			);
+
+			//	##	Arrange mocking of ControllerContext.
+			//	This is used by the controller to handle the file(s) that come(s) with the request.
+			var mCC = new Mock<ControllerContext>();
+			mCC.Setup(d => d.HttpContext.Request.Files.Count).Returns(0);
+			//mCC.Setup(d => d.HttpContext.Request.Files[0]).Returns(mFile.Object);
+
+			cut.ControllerContext = mCC.Object;
+
+			//	#	Act.
+			var res = cut.Index() as ViewResult;
+
+			//	#	Assert.
+			Assert.IsInstanceOfType(res.Model, typeof(Models.HomeIndexViewmodel));
+			var model = (Models.HomeIndexViewmodel)res.Model;
+			Assert.AreEqual(0, model.Files.Count);
+		}
+
+		[TestMethod]
+		public void Home_Index_Given_Nothing_But_File_Should_Store_File_And_Return_File()
 		{
 			//	#	Arrange.
 			//	##	Arrange folders and files. At least names of.
@@ -34,6 +63,8 @@ namespace AnonymousWeb.Tests.Controllers
 			var mHttpContextServer = new Mock<HttpServerUtilityBase>();
 			mHttpContextServer.Setup(s => s.MapPath("~/Uploads"))
 				.Returns( UploadPath );
+
+			//	##	Create component under test.
 			HomeController controller = new HomeController(
 				mHttpContextServer.Object
 			);
