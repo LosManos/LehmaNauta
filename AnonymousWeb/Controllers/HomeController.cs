@@ -1,4 +1,5 @@
-﻿using LehmaNautaLogic.Interface;
+﻿using LehmaNauta.Common;
+using LehmaNautaLogic.Interface;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,10 +17,12 @@ namespace AnonymousWeb.Controllers
 	{
 		public HttpServerUtilityBase _httpContextServer;
 
+		public ILogging _logging;
+
 		#region Constructors.
 		
 		public HomeController() 
-			:this( new HttpServerUtilityWrapper( System.Web.HttpContext.Current.Server))
+			:this( new HttpServerUtilityWrapper( System.Web.HttpContext.Current.Server), new Logging())
 		{
 			//_httpContextServer = 
 			//	( null == this.HttpContext ) ?
@@ -30,9 +33,11 @@ namespace AnonymousWeb.Controllers
 		/// <summary>This constructor is used for automatic testing.
 		/// </summary>
 		/// <param name="server"></param>
-		internal HomeController(HttpServerUtilityBase server)
+		/// <param name="logging"></param>
+		internal HomeController(HttpServerUtilityBase server, ILogging logging)
 		{
 			_httpContextServer = server;
+			_logging = logging;
 		}
 
 		#endregion	//	Constructors.
@@ -41,9 +46,11 @@ namespace AnonymousWeb.Controllers
 
 		public ActionResult Index()
 		{
+			_logging.MethodStart();
 			///	This function stores the file(s) in the request in the respository and database.
 			Func<Models.HomeIndexViewmodel> StoreFiles = delegate()
 			{
+
 				//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
 				var model = UploadFiles(_httpContextServer, Request.Files);
 
@@ -56,6 +63,7 @@ namespace AnonymousWeb.Controllers
 
 			var retModel = StoreFiles();
 
+			_logging.MethodEnd(returnValue: retModel);
 			return View(retModel);
 		}
 

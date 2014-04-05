@@ -105,6 +105,10 @@
       <Project>{8249F8F3-8EBB-4907-A767-F0AB20F54F2B}</Project>
       <Name>AnonymousWeb</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LehmaNauta.Common\LehmaNauta.Common.csproj">
+      <Project>{998F93E8-F035-4776-B71C-C4D94E68A9EA}</Project>
+      <Name>LehmaNauta.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\" />
