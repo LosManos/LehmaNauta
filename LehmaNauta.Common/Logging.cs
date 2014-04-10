@@ -20,7 +20,7 @@ namespace LehmaNauta.Common
 			_logger.Trace(FormatCallerData("MethodEnd", memberName, sourceFilePath, sourceLineNumber));
 		}
 
-		public void MethodEnd(
+		public void MethodEndWithReturnValue(
 			object returnValue = null, 
 			[CallerMemberName] string memberName = "",
 			[CallerFilePath] string sourceFilePath = "",

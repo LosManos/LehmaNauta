@@ -63,12 +63,13 @@ namespace AnonymousWeb.Controllers
 
 			var retModel = StoreFiles();
 
-			_logging.MethodEnd(returnValue: retModel);
+			_logging.MethodEndWithReturnValue(returnValue: retModel);
 			return View(retModel);
 		}
 
 		public ActionResult About()
 		{
+			_logging.MethodStart();
 			ViewBag.Message = "Your application description page.";
 
 			return View();
@@ -76,8 +77,10 @@ namespace AnonymousWeb.Controllers
 
 		public ActionResult Contact()
 		{
+			_logging.MethodStart();
 			ViewBag.Message = "Your contact page.";
 
+			_logging.MethodEnd();
 			return View();
 		}
 
@@ -115,7 +118,7 @@ namespace AnonymousWeb.Controllers
 				File(fileinfo.OpenRead(), MimeMapping.GetMimeMapping( model.Files.Single().Filename), model.Files.Single().Filename) :
 				null;
 
-			_logging.MethodEnd(returnValue: ret);
+			_logging.MethodEndWithReturnValue(returnValue: ret);
 
 			return ret;
 		}
@@ -233,7 +236,7 @@ namespace AnonymousWeb.Controllers
 				}
 			}
 
-			logging.MethodEnd(returnValue: ret);
+			logging.MethodEndWithReturnValue(returnValue: ret);
 			return ret;
 		}
 
