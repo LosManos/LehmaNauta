@@ -37,6 +37,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Downloads", "Downloads", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LehmaNauta.Common.Tests", "LehmaNauta.Common.Tests\LehmaNauta.Common.Tests.csproj", "{5B48FF3B-9BB2-47A3-9C15-4693D9C127FD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebLog", "WebLog", "{AF1868B1-87D8-4619-A9B3-103A7E6F34A3}"
+	ProjectSection(SolutionItems) = preProject
+		WebLog\readme.md = WebLog\readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,5 +90,6 @@ Global
 		{8249F8F3-8EBB-4907-A767-F0AB20F54F2B} = {59ADC231-4FA0-40B2-8B41-088CCBC396E7}
 		{B9EE8C40-82AE-4F75-A93D-2FF823E58E17} = {1D855D64-B890-40FC-8DC5-28A1F1AE1C84}
 		{769C48C0-C67E-4438-9EE0-0D3A92CE19FD} = {1D855D64-B890-40FC-8DC5-28A1F1AE1C84}
+		{AF1868B1-87D8-4619-A9B3-103A7E6F34A3} = {1D855D64-B890-40FC-8DC5-28A1F1AE1C84}
 	EndGlobalSection
 EndGlobal

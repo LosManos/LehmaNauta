@@ -52,7 +52,7 @@ namespace AnonymousWeb.Controllers
 			{
 
 				//	Code copied with pride from http://towardsnext.wordpress.com/2009/04/17/file-upload-in-aspnet-mvc/
-				var model = UploadFiles(_httpContextServer, Request.Files);
+				var model = UploadFiles(_httpContextServer, Request.Files, _logging);
 
 				var owner = Guid.NewGuid();
 
@@ -83,6 +83,8 @@ namespace AnonymousWeb.Controllers
 
 		public FileStreamResult Download(string id)
 		{
+			_logging.MethodStart();
+
 			//	#	Setup.
 			var uid = Guid.Parse(id);
 			var downloadPathForFile = 
@@ -107,14 +109,15 @@ namespace AnonymousWeb.Controllers
 			var fileinfo = new FileInfo(
 				Path.Combine(downloadPathForFile.Value, model.Files.Single().Filename)
 			);
-			if (fileinfo.Exists && fileinfo.Length >= 1 )
-			{
-				return File(fileinfo.OpenRead(), MimeMapping.GetMimeMapping( model.Files.Single().Filename), model.Files.Single().Filename);
-			}
-			else
-			{
-				return null;
-			}
+
+			var ret = 
+				(fileinfo.Exists && fileinfo.Length >= 1 ) ?
+				File(fileinfo.OpenRead(), MimeMapping.GetMimeMapping( model.Files.Single().Filename), model.Files.Single().Filename) :
+				null;
+
+			_logging.MethodEnd(returnValue: ret);
+
+			return ret;
 		}
 
 		#endregion	//	Actions.
@@ -190,12 +193,16 @@ namespace AnonymousWeb.Controllers
 		/// </summary>
 		/// <param name="httpContextServer"></param>
 		/// <param name="requestFiles"></param>
+		/// <param name="logging"></param>
 		/// <returns></returns>
 		private static Models.HomeIndexViewmodel UploadFiles(
 			HttpServerUtilityBase httpContextServer, 
-			HttpFileCollectionBase requestFiles
+			HttpFileCollectionBase requestFiles, 
+			ILogging logging
 		)
 		{
+			logging.MethodStart();
+
 			var ret = Models.HomeIndexViewmodel.Create();
 
 			//	We use a for loop here instead of a foreach because I haven't
@@ -226,6 +233,7 @@ namespace AnonymousWeb.Controllers
 				}
 			}
 
+			logging.MethodEnd(returnValue: ret);
 			return ret;
 		}
 

@@ -17,7 +17,7 @@ namespace LehmaNauta.Common
 			[CallerLineNumber] int sourceLineNumber = 0
 		)
 		{
-			_logger.Trace(FormatCallerData(memberName, sourceFilePath, sourceLineNumber));
+			_logger.Trace(FormatCallerData("MethodEnd", memberName, sourceFilePath, sourceLineNumber));
 		}
 
 		public void MethodEnd(
@@ -29,7 +29,7 @@ namespace LehmaNauta.Common
 		{
 			_logger.Trace(
 				string.Format("{0}\rReturn value:{1}",
-				FormatCallerData(memberName, sourceFilePath, sourceLineNumber),
+				FormatCallerData("MethodEnd", memberName, sourceFilePath, sourceLineNumber),
 				null == returnValue ? "<null>" : returnValue)
 			);
 		}
@@ -40,7 +40,7 @@ namespace LehmaNauta.Common
 			[CallerLineNumber] int sourceLineNumber = 0
 		)
 		{
-			_logger.Trace( FormatCallerData(memberName, sourceFilePath, sourceLineNumber ));
+			_logger.Trace( FormatCallerData("MethodStart", memberName, sourceFilePath, sourceLineNumber ));
 		}
 
 		public void UT_LoggAll()
@@ -64,17 +64,20 @@ namespace LehmaNauta.Common
 		/// \r\n will return two new rows. \n works as \r.
 		/// </para>
 		/// </summary>
+		/// <param name="message"></param>
 		/// <param name="memberName"></param>
 		/// <param name="sourceFilePath"></param>
 		/// <param name="sourceLineNumber"></param>
 		/// <returns></returns>
 		private static string FormatCallerData(
+			string message, 
 			string memberName, 
 			string sourceFilePath, 
 			int sourceLineNumber)
 		{
 			return string.Format(
-				"Method:{0}\rPathfile:{1}\rLineno:{2}",
+				"Message:{0}\rMethod:{1}\rPathfile:{2}\rLineno:{3}",
+				message, 
 				memberName,
 				sourceFilePath,
 				sourceLineNumber);
